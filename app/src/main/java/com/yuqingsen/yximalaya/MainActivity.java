@@ -9,6 +9,7 @@ import com.ximalaya.ting.android.opensdk.datatrasfer.CommonRequest;
 import com.ximalaya.ting.android.opensdk.datatrasfer.IDataCallBack;
 import com.ximalaya.ting.android.opensdk.model.category.Category;
 import com.ximalaya.ting.android.opensdk.model.category.CategoryList;
+import com.yuqingsen.yximalaya.utils.LogUtil;
 
 import java.util.HashMap;
 import java.util.List;
@@ -29,16 +30,16 @@ public class MainActivity extends AppCompatActivity {
                 List<Category> categories = categoryList.getCategories();
                 if (categories!=null){
                     int size = categories.size();
-                    Log.d(TAG,"categories size-------<"+size);
+                    LogUtil.d(TAG,"categories size-------<"+size);
                     for (Category category:categories){
-                        Log.d(TAG, "categorie----->"+category.getCategoryName());
+                        LogUtil.d(TAG, "categorie----->"+category.getCategoryName());
                     }
                 }
             }
 
             @Override
             public void onError(int i, String s) {
-                Log.e(TAG, "onError: "+i+"errorMsg == >"+s);
+                LogUtil.e(TAG, "onError: "+i+"errorMsg == >"+s);
             }
         });
     }

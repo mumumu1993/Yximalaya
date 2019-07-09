@@ -8,6 +8,7 @@ import android.os.Bundle;
 
 import com.yuqingsen.yximalaya.adapters.IndicatorAdapter;
 import com.yuqingsen.yximalaya.adapters.MainContentAdapter;
+import com.yuqingsen.yximalaya.utils.LogUtil;
 
 import net.lucode.hackware.magicindicator.MagicIndicator;
 import net.lucode.hackware.magicindicator.ViewPagerHelper;
@@ -19,21 +20,35 @@ public class MainActivity extends FragmentActivity {
     private String TAG = "MainActivity";
     public MagicIndicator magicIndicator;
     public ViewPager contentPager;
+    public IndicatorAdapter indicatorAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initView();
+        initEvent();
+    }
+
+    private void initEvent() {
+        indicatorAdapter.setOnIndicatorTabClickListenr(new IndicatorAdapter.OnIndicatorTabClickListener() {
+            @Override
+            public void onTabClick(int i) {
+                LogUtil.d(TAG,"click index is"+i);
+                if (contentPager!=null){
+                    contentPager.setCurrentItem(i);
+                }
+            }
+        });
     }
 
     private void initView() {
         magicIndicator = findViewById(R.id.main_indicator);
         magicIndicator.setBackgroundColor(this.getResources().getColor(R.color.main_color));
         //创建适配器
-        IndicatorAdapter adapter = new IndicatorAdapter(this);
+        indicatorAdapter = new IndicatorAdapter(this);
         CommonNavigator commonNavigator = new CommonNavigator(this);
-        commonNavigator.setAdapter(adapter);
+        commonNavigator.setAdapter(indicatorAdapter);
 
 
         //获取ViewPager

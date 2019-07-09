@@ -6,11 +6,29 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
-
-    <net.lucode.hackware.magicindicator.MagicIndicator
-        android:id="@+id/main_indicator"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="40dp"/>
+        android:layout_height="40dp"
+        android:orientation="horizontal"
+        android:background="@color/main_color">
+
+        <net.lucode.hackware.magicindicator.MagicIndicator
+            android:id="@+id/main_indicator"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="3"/>
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent">
+            <ImageView
+                android:layout_centerInParent="true"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@mipmap/main_serch" />
+        </RelativeLayout>
+
+    </LinearLayout>
     <android.support.v4.view.ViewPager
         android:overScrollMode="never"
         android:id="@+id/content_pager"

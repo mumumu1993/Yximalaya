@@ -34,4 +34,5 @@ dependencies {
     implementation files('libs/XmlyOAuth2SDK_V1.10.jar')
     implementation("com.squareup.okhttp3:okhttp:4.0.0")
     implementation 'com.google.code.gson:gson:2.8.5'
+    implementation 'com.github.hackware1993:MagicIndicator:1.5.0'
 }

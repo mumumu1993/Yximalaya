@@ -1,32 +1,33 @@
 package com.yuqingsen.yximalaya.fragments;
 
-import android.support.annotation.Nullable;
+import android.graphics.Rect;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.ximalaya.ting.android.opensdk.constants.DTransferConstants;
-import com.ximalaya.ting.android.opensdk.datatrasfer.CommonRequest;
-import com.ximalaya.ting.android.opensdk.datatrasfer.IDataCallBack;
 import com.ximalaya.ting.android.opensdk.model.album.Album;
-import com.ximalaya.ting.android.opensdk.model.album.GussLikeAlbumList;
 import com.yuqingsen.yximalaya.R;
 import com.yuqingsen.yximalaya.adapters.RecommendListAdapter;
 import com.yuqingsen.yximalaya.base.BaseFragment;
-import com.yuqingsen.yximalaya.utils.Constants;
+import com.yuqingsen.yximalaya.interfaces.IRecommendViewCallback;
+import com.yuqingsen.yximalaya.presenters.RecommendPresenter;
 import com.yuqingsen.yximalaya.utils.LogUtil;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import net.lucode.hackware.magicindicator.buildins.UIUtil;
 
-public class RecommendFragment extends BaseFragment {
+
+import java.util.List;
+
+
+public class RecommendFragment extends BaseFragment implements IRecommendViewCallback {
     private static final String TAG = "RecommendFragment";
     private View rootView;
     private RecyclerView recommendList;
     private RecommendListAdapter recommendListAdapter;
+    private RecommendPresenter recommendPresenter;
     @Override
     protected View onSubViewLoaded(LayoutInflater layoutInflater, ViewGroup container) {
         rootView = layoutInflater.inflate(R.layout.fragment_recommend,container,false);
@@ -35,51 +36,56 @@ public class RecommendFragment extends BaseFragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recommendList.setLayoutManager(linearLayoutManager);
+        recommendList.addItemDecoration(new RecyclerView.ItemDecoration() {
+            @Override
+            public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
+                outRect.top = UIUtil.dip2px(view.getContext(),5);
+                outRect.bottom = UIUtil.dip2px(view.getContext(),5);
+                outRect.left = UIUtil.dip2px(view.getContext(),5);
+                outRect.right = UIUtil.dip2px(view.getContext(),5);
+            }
+        });
         //设置适配器
         recommendListAdapter = new RecommendListAdapter();
         recommendList.setAdapter(recommendListAdapter);
 
-        //拿数据回来
-        getRecommendData();
+        //获取到逻辑层的对象
+        recommendPresenter = RecommendPresenter.getsInstance();
+        //先要设置接口注册通知
+        recommendPresenter.registerViewCallback(this);
+        //获取推荐列表
+        recommendPresenter.getRecommendList();
 
 
         //返回view给界面显示
         return rootView;
     }
 
-    /**
-     * 获取推荐内容
-     * 实现接口：
-     * 3.10.6 获取猜你喜欢专辑
-     */
-    private void getRecommendData() {
-        //封装参数
-        Map<String, String> map = new HashMap<>();
-        //一页数据返回条数
-        map.put(DTransferConstants.LIKE_COUNT, Constants.RECOMMEND_COUNT+"");
 
-        CommonRequest.getGuessLikeAlbum(map, new IDataCallBack<GussLikeAlbumList>() {
-            @Override
-            public void onSuccess(@Nullable GussLikeAlbumList gussLikeAlbumList) {
-                //数据获取成功
-                if (gussLikeAlbumList!=null){
-                    List<Album> albumList = gussLikeAlbumList.getAlbumList();
-                    //拿到数据，更新UI
-                    upRecommendUI(albumList);
-                }
-            }
-
-            @Override
-            public void onError(int i, String s) {
-                //获取数据失败
-                LogUtil.d(TAG,"error -- >"+i);
-                LogUtil.d(TAG,"errorMsg -- >"+s);
-            }
-        });
+    @Override
+    public void onRecommendListLoaded(List<Album> result) {
+        //当我们获取到推荐内容的时候，这个方法就会被调用
+        //数据到手，更新UI
+        LogUtil.d(TAG,"------>"+result);
+        recommendListAdapter.setData(result);
     }
 
-    private void upRecommendUI(List<Album> albumList) {
-        //把数据设置给适配器并更新
-        recommendListAdapter.setData(albumList);
+    @Override
+    public void onLoaderMore(List<Album> result) {
+
+    }
+
+    @Override
+    public void onRefreshMore(List<Album> result) {
+
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        //取消接口的注册
+        if (recommendPresenter!=null){
+            recommendPresenter.unRegisterViewCallback(this);
+        }
     }
 }

@@ -32,7 +32,9 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     implementation files('libs/TingPhoneOpenSDK_7.0.4.jar')
     implementation files('libs/XmlyOAuth2SDK_V1.10.jar')
-    implementation("com.squareup.okhttp3:okhttp:4.0.0")
+    implementation 'com.squareup.okhttp3:okhttp:4.0.0'
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation 'com.github.hackware1993:MagicIndicator:1.5.0'
+    implementation 'com.android.support:recyclerview-v7:28.0.0'
+    implementation 'com.squareup.picasso:picasso:2.3.2'
 }

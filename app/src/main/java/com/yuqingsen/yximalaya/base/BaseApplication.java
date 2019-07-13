@@ -1,12 +1,15 @@
 package com.yuqingsen.yximalaya.base;
 
 import android.app.Application;
+import android.os.Handler;
 
 import com.ximalaya.ting.android.opensdk.constants.DTransferConstants;
 import com.ximalaya.ting.android.opensdk.datatrasfer.CommonRequest;
 import com.yuqingsen.yximalaya.utils.LogUtil;
 
+
 public class BaseApplication extends Application {
+    private static Handler sHandler = null;
     @Override
     public void onCreate() {
         super.onCreate();
@@ -24,5 +27,9 @@ public class BaseApplication extends Application {
         }
         //初始化LogUtil
         LogUtil.init(this.getPackageName(), false);
+        sHandler = new Handler();
+    }
+    public static Handler getsHandler(){
+        return sHandler;
     }
 }

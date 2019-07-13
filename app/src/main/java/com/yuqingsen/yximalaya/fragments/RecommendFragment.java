@@ -15,6 +15,7 @@ import com.yuqingsen.yximalaya.base.BaseFragment;
 import com.yuqingsen.yximalaya.interfaces.IRecommendViewCallback;
 import com.yuqingsen.yximalaya.presenters.RecommendPresenter;
 import com.yuqingsen.yximalaya.utils.LogUtil;
+import com.yuqingsen.yximalaya.views.UILoader;
 
 import net.lucode.hackware.magicindicator.buildins.UIUtil;
 
@@ -22,15 +23,42 @@ import net.lucode.hackware.magicindicator.buildins.UIUtil;
 import java.util.List;
 
 
-public class RecommendFragment extends BaseFragment implements IRecommendViewCallback {
+public class RecommendFragment extends BaseFragment implements IRecommendViewCallback, UILoader.OnRetryClickListener {
     private static final String TAG = "RecommendFragment";
     private View rootView;
     private RecyclerView recommendList;
     private RecommendListAdapter recommendListAdapter;
     private RecommendPresenter recommendPresenter;
+    private UILoader uiLoader;
     @Override
-    protected View onSubViewLoaded(LayoutInflater layoutInflater, ViewGroup container) {
+    protected View onSubViewLoaded(final LayoutInflater layoutInflater, ViewGroup container) {
+
+        uiLoader = new UILoader(getContext()) {
+            @Override
+            protected View getSuccessView(ViewGroup container) {
+                return createSuccessView(layoutInflater,container);
+            }
+        };
+
+        //获取到逻辑层的对象
+        recommendPresenter = RecommendPresenter.getsInstance();
+        //先要设置接口注册通知
+        recommendPresenter.registerViewCallback(this);
+        //获取推荐列表
+        recommendPresenter.getRecommendList();
+
+        if (uiLoader.getParent() instanceof ViewGroup) {
+            ((ViewGroup) uiLoader.getParent()).removeView(uiLoader);
+        }
+
+        uiLoader.setOnRetryClickListener(this);
+        //返回view给界面显示
+        return uiLoader;
+    }
+
+    private View createSuccessView(LayoutInflater layoutInflater, ViewGroup container) {
         rootView = layoutInflater.inflate(R.layout.fragment_recommend,container,false);
+
         recommendList = rootView.findViewById(R.id.recommend_list);
         //设置布局管理器
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
@@ -48,16 +76,6 @@ public class RecommendFragment extends BaseFragment implements IRecommendViewCal
         //设置适配器
         recommendListAdapter = new RecommendListAdapter();
         recommendList.setAdapter(recommendListAdapter);
-
-        //获取到逻辑层的对象
-        recommendPresenter = RecommendPresenter.getsInstance();
-        //先要设置接口注册通知
-        recommendPresenter.registerViewCallback(this);
-        //获取推荐列表
-        recommendPresenter.getRecommendList();
-
-
-        //返回view给界面显示
         return rootView;
     }
 
@@ -68,17 +86,24 @@ public class RecommendFragment extends BaseFragment implements IRecommendViewCal
         //数据到手，更新UI
         LogUtil.d(TAG,"------>"+result);
         recommendListAdapter.setData(result);
+        uiLoader.updateStatus(UILoader.UIStatus.SUCCESS);
     }
 
     @Override
-    public void onLoaderMore(List<Album> result) {
-
+    public void onNetworkError() {
+        uiLoader.updateStatus(UILoader.UIStatus.NETWORK_ERROR);
     }
 
     @Override
-    public void onRefreshMore(List<Album> result) {
-
+    public void onEmpty() {
+        uiLoader.updateStatus(UILoader.UIStatus.EMPTY);
     }
+
+    @Override
+    public void onLoading() {
+        uiLoader.updateStatus(UILoader.UIStatus.LOADING);
+    }
+
 
     @Override
     public void onDestroyView() {
@@ -86,6 +111,14 @@ public class RecommendFragment extends BaseFragment implements IRecommendViewCal
         //取消接口的注册
         if (recommendPresenter!=null){
             recommendPresenter.unRegisterViewCallback(this);
+        }
+    }
+
+    @Override
+    public void onRetryClick() {
+        //表示网络不佳，用户点击重试
+        if (recommendPresenter != null) {
+            recommendPresenter.getRecommendList();
         }
     }
 }

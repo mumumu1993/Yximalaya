@@ -46,6 +46,7 @@ public class RecommendPresenter implements IRecommendPresenter {
      */
     @Override
     public void getRecommendList() {
+        updateLoading();
         Map<String, String> map = new HashMap<>();
         //一页数据返回条数
         map.put(DTransferConstants.LIKE_COUNT, Constants.RECOMMEND_COUNT+"");
@@ -68,19 +69,19 @@ public class RecommendPresenter implements IRecommendPresenter {
                 //获取数据失败
                 LogUtil.d(TAG,"error -- >"+i);
                 LogUtil.d(TAG,"errorMsg -- >"+s);
+                handlerError();
             }
         });
     }
 
-    @Override
-    public void pull2RefreshMore() {
-
+    private void handlerError() {
+        if (mCallbacks!=null){
+            for (IRecommendViewCallback callback:mCallbacks){
+                callback.onNetworkError();
+            }
+        }
     }
 
-    @Override
-    public void loadMore() {
-
-    }
 
     @Override
     public void registerViewCallback(IRecommendViewCallback callback) {
@@ -100,11 +101,21 @@ public class RecommendPresenter implements IRecommendPresenter {
 
     private void handlerRecommendResult(List<Album> albumList) {
         //通知UI更新
-        LogUtil.d(TAG,"------->"+albumList.size());
-        if (mCallbacks!=null){
-            for (IRecommendViewCallback callback:mCallbacks){
-                callback.onRecommendListLoaded(albumList);
+        if (albumList!=null){
+            if (albumList.size()==0){
+                for (IRecommendViewCallback callback:mCallbacks){
+                    callback.onEmpty();
+                }
+            }else {
+                for (IRecommendViewCallback callback:mCallbacks){
+                    callback.onRecommendListLoaded(albumList);
+                }
             }
+        }
+    }
+    private void updateLoading(){
+        for (IRecommendViewCallback callback:mCallbacks){
+            callback.onLoading();
         }
     }
 }

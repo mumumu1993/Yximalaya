@@ -16,8 +16,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RecommendListAdapter extends RecyclerView.Adapter<RecommendListAdapter.InnerHolder> {
+    private static final String TAG = "RecommendListAdapter";
 
     private List<Album> data = new ArrayList<>();
+    private OnRecommendItemClickListener mItemClickListener = null;
+
     @NonNull
     @Override
     public InnerHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
@@ -28,6 +31,15 @@ public class RecommendListAdapter extends RecyclerView.Adapter<RecommendListAdap
     @Override
     public void onBindViewHolder(@NonNull InnerHolder innerHolder, int i) {
         innerHolder.itemView.setTag(i);
+        innerHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mItemClickListener != null) {
+                    int clickPosition = (int) v.getTag();
+                    mItemClickListener.onItemClick(clickPosition,data.get(clickPosition));
+                }
+            }
+        });
         innerHolder.setData(data.get(i));
     }
 
@@ -74,5 +86,11 @@ public class RecommendListAdapter extends RecyclerView.Adapter<RecommendListAdap
 
             Picasso.with(itemView.getContext()).load(album.getCoverUrlLarge()).into(albumCoverIv);
         }
+    }
+    public void setOnRecommendItemClickListener(OnRecommendItemClickListener listener){
+        this.mItemClickListener = listener;
+    }
+    public interface OnRecommendItemClickListener{
+        void onItemClick(int position, Album album);
     }
 }

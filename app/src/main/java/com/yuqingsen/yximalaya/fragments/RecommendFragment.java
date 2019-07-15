@@ -1,5 +1,6 @@
 package com.yuqingsen.yximalaya.fragments;
 
+import android.content.Intent;
 import android.graphics.Rect;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,10 +10,12 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.ximalaya.ting.android.opensdk.model.album.Album;
+import com.yuqingsen.yximalaya.DetailActivity;
 import com.yuqingsen.yximalaya.R;
 import com.yuqingsen.yximalaya.adapters.RecommendListAdapter;
 import com.yuqingsen.yximalaya.base.BaseFragment;
 import com.yuqingsen.yximalaya.interfaces.IRecommendViewCallback;
+import com.yuqingsen.yximalaya.presenters.AlbumDetailPresenter;
 import com.yuqingsen.yximalaya.presenters.RecommendPresenter;
 import com.yuqingsen.yximalaya.utils.LogUtil;
 import com.yuqingsen.yximalaya.views.UILoader;
@@ -23,7 +26,7 @@ import net.lucode.hackware.magicindicator.buildins.UIUtil;
 import java.util.List;
 
 
-public class RecommendFragment extends BaseFragment implements IRecommendViewCallback, UILoader.OnRetryClickListener {
+public class RecommendFragment extends BaseFragment implements IRecommendViewCallback, UILoader.OnRetryClickListener, RecommendListAdapter.OnRecommendItemClickListener {
     private static final String TAG = "RecommendFragment";
     private View rootView;
     private RecyclerView recommendList;
@@ -76,6 +79,7 @@ public class RecommendFragment extends BaseFragment implements IRecommendViewCal
         //设置适配器
         recommendListAdapter = new RecommendListAdapter();
         recommendList.setAdapter(recommendListAdapter);
+        recommendListAdapter.setOnRecommendItemClickListener(this);
         return rootView;
     }
 
@@ -120,5 +124,13 @@ public class RecommendFragment extends BaseFragment implements IRecommendViewCal
         if (recommendPresenter != null) {
             recommendPresenter.getRecommendList();
         }
+    }
+
+    @Override
+    public void onItemClick(int position, Album album) {
+        AlbumDetailPresenter.getsInstance().setTargetAlbum(album);
+        //item被点击了,跳转到详情界面
+        Intent intent = new Intent(getContext(),DetailActivity.class);
+        startActivity(intent);
     }
 }

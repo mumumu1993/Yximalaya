@@ -19,6 +19,8 @@ public class DetailListAdapter extends RecyclerView.Adapter<DetailListAdapter.In
     //格式化时间
     private SimpleDateFormat updateTimeFormat = new SimpleDateFormat("yyyy-MM-dd");
     private SimpleDateFormat durationFormat = new SimpleDateFormat("mm：ss");
+    private ItemClickListener itemClickListener = null;
+
     @NonNull
     @Override
     public InnerHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
@@ -27,7 +29,7 @@ public class DetailListAdapter extends RecyclerView.Adapter<DetailListAdapter.In
     }
 
     @Override
-    public void onBindViewHolder(@NonNull InnerHolder innerHolder, int i) {
+    public void onBindViewHolder(@NonNull InnerHolder innerHolder, final int i) {
         //找到控件，设置数据显示
         View itemView = innerHolder.itemView;
         //顺序ID
@@ -51,6 +53,16 @@ public class DetailListAdapter extends RecyclerView.Adapter<DetailListAdapter.In
         durationTv.setText(durationText);
         String updateTimeText = updateTimeFormat.format(track.getUpdatedAt());
         updateTimeTv.setText(updateTimeText);
+
+        //设置Item点击事件
+        itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (itemClickListener != null) {
+                    itemClickListener.onItemClick(detailData,i);
+                }
+            }
+        });
     }
 
     @Override
@@ -68,5 +80,11 @@ public class DetailListAdapter extends RecyclerView.Adapter<DetailListAdapter.In
         public InnerHolder(@NonNull View itemView) {
             super(itemView);
         }
+    }
+    public void setItemClickListener(ItemClickListener listener){
+        this.itemClickListener = listener;
+    }
+    public interface ItemClickListener{
+        void onItemClick(List<Track> detailData, int i);
     }
 }

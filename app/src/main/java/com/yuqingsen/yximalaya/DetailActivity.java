@@ -1,5 +1,6 @@
 package com.yuqingsen.yximalaya;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
@@ -23,6 +24,7 @@ import com.yuqingsen.yximalaya.adapters.DetailListAdapter;
 import com.yuqingsen.yximalaya.base.BaseActivity;
 import com.yuqingsen.yximalaya.interfaces.IAlbumDeatilViewCallback;
 import com.yuqingsen.yximalaya.presenters.AlbumDetailPresenter;
+import com.yuqingsen.yximalaya.presenters.PlayerPresenter;
 import com.yuqingsen.yximalaya.utils.ImageBlur;
 import com.yuqingsen.yximalaya.utils.LogUtil;
 import com.yuqingsen.yximalaya.views.RoundRectImageView;
@@ -32,7 +34,7 @@ import net.lucode.hackware.magicindicator.buildins.UIUtil;
 
 import java.util.List;
 
-public class DetailActivity extends BaseActivity implements IAlbumDeatilViewCallback, UILoader.OnRetryClickListener {
+public class DetailActivity extends BaseActivity implements IAlbumDeatilViewCallback, UILoader.OnRetryClickListener, DetailListAdapter.ItemClickListener {
     private static final String TAG = "DetailActivity";
     private ImageView largeCover;
     private RoundRectImageView smallCover;
@@ -96,6 +98,7 @@ public class DetailActivity extends BaseActivity implements IAlbumDeatilViewCall
                 outRect.right = UIUtil.dip2px(view.getContext(), 2);
             }
         });
+        detailListAdapter.setItemClickListener(this);
         return detailListView;
     }
 
@@ -163,5 +166,15 @@ public class DetailActivity extends BaseActivity implements IAlbumDeatilViewCall
         if (albumDetailPresenter != null) {
             albumDetailPresenter.getAlbumDetail(mCurrentId, currentPage);
         };
+    }
+
+    @Override
+    public void onItemClick(List<Track> detailData, int i) {
+        //设置播放器的数据
+        PlayerPresenter playerPresenter = PlayerPresenter.getsPlayerPresenter();
+        playerPresenter.setPlayList(detailData,i);
+
+        Intent intent = new Intent(this,PlayerActivity.class);
+        startActivity(intent);
     }
 }

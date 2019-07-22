@@ -114,7 +114,7 @@ public class RecommendFragment extends BaseFragment implements IRecommendViewCal
         super.onDestroyView();
         //取消接口的注册
         if (recommendPresenter!=null){
-            recommendPresenter.unRegisterViewCallback(this);
+            recommendPresenter.unregisterViewCallback(this);
         }
     }
 

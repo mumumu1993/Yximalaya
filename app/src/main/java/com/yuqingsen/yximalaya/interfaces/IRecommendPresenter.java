@@ -1,20 +1,10 @@
 package com.yuqingsen.yximalaya.interfaces;
 
-public interface IRecommendPresenter {
+import com.yuqingsen.yximalaya.base.IBasePresenter;
+
+public interface IRecommendPresenter extends IBasePresenter<IRecommendViewCallback> {
     /**
      * 获取推荐内容
      */
     void getRecommendList();
-
-    /**
-     * 用于注册UI的回调
-     * @param callback
-     */
-    void registerViewCallback(IRecommendViewCallback callback);
-
-    /**
-     * 取消UI的回调注册
-     * @param callback
-     */
-    void unRegisterViewCallback(IRecommendViewCallback callback);
 }

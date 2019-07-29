@@ -14,7 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DetailListAdapter extends RecyclerView.Adapter<DetailListAdapter.InnerHolder>{
+public class DetailListAdapter extends RecyclerView.Adapter<DetailListAdapter.InnerHolder> {
     private List<Track> detailData = new ArrayList<>();
     //格式化时间
     private SimpleDateFormat updateTimeFormat = new SimpleDateFormat("yyyy-MM-dd");
@@ -45,10 +45,10 @@ public class DetailListAdapter extends RecyclerView.Adapter<DetailListAdapter.In
 
         //设置数据
         Track track = detailData.get(i);
-        orderTv.setText(i+"");
+        orderTv.setText((i + 1) + "");
         titleTv.setText(track.getTrackTitle());
-        playCountTv.setText(track.getPlayCount()+"");
-        long duration = track.getDuration()*1000;
+        playCountTv.setText(track.getPlayCount() + "");
+        long duration = track.getDuration() * 1000;
         String durationText = durationFormat.format(duration);
         durationTv.setText(durationText);
         String updateTimeText = updateTimeFormat.format(track.getUpdatedAt());
@@ -59,7 +59,7 @@ public class DetailListAdapter extends RecyclerView.Adapter<DetailListAdapter.In
             @Override
             public void onClick(View v) {
                 if (itemClickListener != null) {
-                    itemClickListener.onItemClick(detailData,i);
+                    itemClickListener.onItemClick(detailData, i);
                 }
             }
         });
@@ -81,10 +81,12 @@ public class DetailListAdapter extends RecyclerView.Adapter<DetailListAdapter.In
             super(itemView);
         }
     }
-    public void setItemClickListener(ItemClickListener listener){
+
+    public void setItemClickListener(ItemClickListener listener) {
         this.itemClickListener = listener;
     }
-    public interface ItemClickListener{
+
+    public interface ItemClickListener {
         void onItemClick(List<Track> detailData, int i);
     }
 }

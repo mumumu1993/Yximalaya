@@ -74,5 +74,11 @@ public interface IPlayerCallback {
      * @param track
      */
     void onTrackUpdate(Track track,int playIndex);
+
+    /**
+     * 通知UI更新播放列表的文字和图标
+     * @param isReverse
+     */
+    void updateListOrder(boolean isReverse);
 }
 

@@ -71,6 +71,8 @@ public class AlbumDetailPresenter implements IAlbumDetailPresenter {
                     LogUtil.d(TAG, "tracks size ------>" + tracks.size());
                     if (isLoaderMore) {
                         mTracks.addAll(tracks);
+                        int size = tracks.size();
+                        handlerLoaderMoreResult(size);
                     }else {
                         mTracks.addAll(0,tracks);
                     }
@@ -89,6 +91,17 @@ public class AlbumDetailPresenter implements IAlbumDetailPresenter {
             }
         });
     }
+
+    /**
+     * 处理加载更多的结果
+     * @param size
+     */
+    private void handlerLoaderMoreResult(int size) {
+        for (IAlbumDeatilViewCallback callback : callbacks) {
+            callback.onLoaderMoreFinished(size);
+        }
+    }
+
     @Override
     public void getAlbumDetail(long albumID, int page) {
         mTracks.clear();

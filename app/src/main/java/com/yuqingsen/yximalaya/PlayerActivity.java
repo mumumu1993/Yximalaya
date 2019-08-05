@@ -86,6 +86,11 @@ public class PlayerActivity extends BaseActivity implements IPlayerCallback, Vie
         mPlayerPresenter.getPlayList();
         initEvent();
         initBgAnimation();
+        updatePlayState(mPlayerPresenter.isPlaying());
+    }
+
+    private void updatePlayState(boolean playing) {
+        mControlBtn.setImageResource(playing?R.drawable.selector_player_stop:R.drawable.selector_player_play);
     }
 
     private void initBgAnimation() {
@@ -127,7 +132,7 @@ public class PlayerActivity extends BaseActivity implements IPlayerCallback, Vie
         mControlBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mPlayerPresenter.isPlay()) {
+                if (mPlayerPresenter.isPlaying()) {
                     mPlayerPresenter.pause();
                 } else {
                     mPlayerPresenter.play();

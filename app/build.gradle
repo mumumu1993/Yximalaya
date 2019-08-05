@@ -37,4 +37,5 @@ dependencies {
     implementation 'com.github.hackware1993:MagicIndicator:1.5.0'
     implementation 'com.android.support:recyclerview-v7:28.0.0'
     implementation 'com.squareup.picasso:picasso:2.3.2'
+    implementation 'com.lcodecorex:tkrefreshlayout:1.0.7'
 }

@@ -1,109 +1,125 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fff4f4f4"
-    >
+    android:background="#fff4f4f4">
+
     <ImageView
         android:id="@+id/iv_large_cover"
         android:layout_width="match_parent"
         android:layout_height="150dp"
-        android:scaleType="fitXY"/>
+        android:scaleType="fitXY" />
+
     <RelativeLayout
         android:id="@+id/subscription_container"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_below="@id/iv_large_cover"
-        >
+        android:layout_below="@id/iv_large_cover">
+
         <TextView
-            android:layout_centerInParent="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="14dp"
-            android:gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="+订阅"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            android:layout_marginRight="14dp"
             android:background="@drawable/shape_subscription_bg"
-            android:textColor="@color/white"/>
+            android:gravity="center"
+            android:text="+订阅"
+            android:textColor="@color/white" />
     </RelativeLayout>
+
     <RelativeLayout
         android:id="@+id/player_control_container"
-        android:layout_below="@id/subscription_container"
         android:layout_width="match_parent"
         android:layout_height="40dp"
+        android:layout_below="@id/subscription_container"
         android:background="#EBE8E8">
+
         <ImageView
             android:id="@+id/detail_play_control"
-            android:src="@mipmap/detail_play"
+            android:layout_width="39dp"
+            android:layout_height="39dp"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
-            android:layout_width="19dp"
-            android:layout_height="19dp" />
+            android:paddingLeft="10dp"
+            android:paddingTop="10dp"
+            android:paddingRight="5dp"
+            android:paddingBottom="10dp"
+            android:src="@drawable/selector_play_control_play" />
+
         <TextView
+            android:id="@+id/detail_play_control_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="140dp"
             android:layout_toRightOf="@id/detail_play_control"
-            android:textSize="12sp"
-            android:layout_marginLeft="12dp"
-            android:layout_centerVertical="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="继续播放"/>
+            android:ellipsize="marquee"
+            android:singleLine="true"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:text="@string/click_play_tips_text"
+            android:textSize="12sp" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="选集"
             android:layout_centerVertical="true"
             android:layout_marginRight="4dp"
-            android:layout_toLeftOf="@id/detail_arrow"/>
+            android:layout_toLeftOf="@id/detail_arrow"
+            android:text="选集" />
+
         <ImageView
             android:id="@+id/detail_arrow"
-            android:layout_centerVertical="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="18dp"
-            android:src="@mipmap/arrow_down_icon"
             android:layout_width="10dp"
             android:layout_height="10dp"
-            />
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="18dp"
+            android:src="@mipmap/arrow_down_icon" />
     </RelativeLayout>
+
     <com.yuqingsen.yximalaya.views.RoundRectImageView
         android:id="@+id/riv_small_cover"
         android:layout_width="75dp"
         android:layout_height="75dp"
-        android:scaleType="fitXY"
+        android:layout_below="@id/iv_large_cover"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="-40dp"
-        android:layout_below="@id/iv_large_cover"/>
+        android:scaleType="fitXY" />
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
+        android:layout_below="@id/iv_large_cover"
         android:layout_marginLeft="20dp"
         android:layout_marginTop="-25dp"
-        android:layout_below="@id/iv_large_cover"
-        android:layout_toRightOf="@id/riv_small_cover">
+        android:layout_toRightOf="@id/riv_small_cover"
+        android:orientation="vertical">
+
         <TextView
             android:id="@+id/tv_album_title"
             android:layout_width="wrap_content"
-            android:text="这是标题"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:textColor="@color/white"/>
+            android:text="这是标题"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+
         <TextView
             android:id="@+id/tv_album_author"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:lines="1"
+            android:layout_marginTop="5dp"
             android:ellipsize="end"
+            android:lines="1"
             android:text="这是作者"
-            android:textSize="12sp"
             android:textColor="@color/sub_text_title"
-            android:layout_marginTop="5dp"/>
+            android:textSize="12sp" />
     </LinearLayout>
 
     <FrameLayout
         android:id="@+id/detail_list_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/player_control_container"/>
+        android:layout_below="@id/player_control_container" />
 
 </RelativeLayout>

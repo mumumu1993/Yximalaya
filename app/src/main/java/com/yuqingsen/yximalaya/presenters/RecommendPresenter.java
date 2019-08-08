@@ -7,19 +7,18 @@ import com.ximalaya.ting.android.opensdk.datatrasfer.CommonRequest;
 import com.ximalaya.ting.android.opensdk.datatrasfer.IDataCallBack;
 import com.ximalaya.ting.android.opensdk.model.album.Album;
 import com.ximalaya.ting.android.opensdk.model.album.GussLikeAlbumList;
+import com.yuqingsen.yximalaya.api.YximalayaApi;
 import com.yuqingsen.yximalaya.interfaces.IRecommendPresenter;
 import com.yuqingsen.yximalaya.interfaces.IRecommendViewCallback;
-import com.yuqingsen.yximalaya.utils.Constants;
 import com.yuqingsen.yximalaya.utils.LogUtil;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class RecommendPresenter implements IRecommendPresenter {
 
     private List<IRecommendViewCallback> mCallbacks = new ArrayList<>();
+    private List<Album> mCurrentRecommend = null;
 
     private RecommendPresenter(){}
     private static RecommendPresenter sInstance = null ;
@@ -40,6 +39,13 @@ public class RecommendPresenter implements IRecommendPresenter {
     }
 
     /**
+     * 获取当前的推荐专辑列表
+     * @return 推荐专辑列表，使用前判空。
+     */
+    public List<Album> getCurrentRecommend(){
+        return mCurrentRecommend;
+    }
+    /**
      * 获取推荐内容
      * 实现接口：
      * 3.10.6 获取猜你喜欢专辑
@@ -47,11 +53,8 @@ public class RecommendPresenter implements IRecommendPresenter {
     @Override
     public void getRecommendList() {
         updateLoading();
-        Map<String, String> map = new HashMap<>();
-        //一页数据返回条数
-        map.put(DTransferConstants.LIKE_COUNT, Constants.COUNT_RECOMMEND+"");
-
-        CommonRequest.getGuessLikeAlbum(map, new IDataCallBack<GussLikeAlbumList>() {
+        YximalayaApi yximalayaApi = YximalayaApi.getYximalayaApi();
+        yximalayaApi.getRecommendList(new IDataCallBack<GussLikeAlbumList>() {
             @Override
             public void onSuccess(@Nullable GussLikeAlbumList gussLikeAlbumList) {
                 //数据获取成功
@@ -110,6 +113,7 @@ public class RecommendPresenter implements IRecommendPresenter {
                 for (IRecommendViewCallback callback:mCallbacks){
                     callback.onRecommendListLoaded(albumList);
                 }
+                this.mCurrentRecommend = albumList;
             }
         }
     }

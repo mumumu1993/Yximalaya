@@ -9,7 +9,7 @@ public interface IPlayerPresenter extends IBasePresenter<IPlayerCallback> {
 
     void pause();
 
-    void  stop();
+    void stop();
 
     void playPre();
 
@@ -17,6 +17,7 @@ public interface IPlayerPresenter extends IBasePresenter<IPlayerCallback> {
 
     /**
      * 切换播放模式
+     *
      * @param mode
      */
     void switchPlayMode(XmPlayListControl.PlayMode mode);
@@ -28,18 +29,21 @@ public interface IPlayerPresenter extends IBasePresenter<IPlayerCallback> {
 
     /**
      * 根据进度条位置播放
+     *
      * @param index
      */
     void playByIndex(int index);
 
     /**
-     *切换播放进度
+     * 切换播放进度
+     *
      * @param progress
      */
     void seekTo(int progress);
 
     /**
      * 播放器是否在播放
+     *
      * @return
      */
     boolean isPlaying();
@@ -49,4 +53,9 @@ public interface IPlayerPresenter extends IBasePresenter<IPlayerCallback> {
      */
     void reversPlayList();
 
+    /**
+     * 播放专辑的第一个节目
+     * @param id
+     */
+    void playByAlbumId(long id);
 }

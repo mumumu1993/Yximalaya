@@ -8,6 +8,7 @@ import com.ximalaya.ting.android.opensdk.datatrasfer.IDataCallBack;
 import com.ximalaya.ting.android.opensdk.model.album.Album;
 import com.ximalaya.ting.android.opensdk.model.track.Track;
 import com.ximalaya.ting.android.opensdk.model.track.TrackList;
+import com.yuqingsen.yximalaya.api.YximalayaApi;
 import com.yuqingsen.yximalaya.interfaces.IAlbumDeatilViewCallback;
 import com.yuqingsen.yximalaya.interfaces.IAlbumDetailPresenter;
 import com.yuqingsen.yximalaya.utils.Constants;
@@ -58,12 +59,8 @@ public class AlbumDetailPresenter implements IAlbumDetailPresenter {
     }
 
     private void doLoaded(final boolean isLoaderMore){
-        Map<String, String> map = new HashMap<String, String>();
-        map.put(DTransferConstants.ALBUM_ID,mCurrentAlumId+"");
-        map.put(DTransferConstants.SORT, "asc");
-        map.put(DTransferConstants.PAGE, mCurrentPageIndex + "");
-        map.put(DTransferConstants.PAGE_SIZE, Constants.COUNT_DEFAULT + "");
-        CommonRequest.getTracks(map, new IDataCallBack<TrackList>() {
+        YximalayaApi yximalayaApi = YximalayaApi.getYximalayaApi();
+        yximalayaApi.getAlbumDetail(new IDataCallBack<TrackList>() {
             @Override
             public void onSuccess(@Nullable TrackList trackList) {
                 if (trackList != null) {
@@ -89,7 +86,7 @@ public class AlbumDetailPresenter implements IAlbumDetailPresenter {
                 LogUtil.d(TAG, "errorMsg----->" + errorMsg);
                 handlerError(errorCode, errorMsg);
             }
-        });
+        },mCurrentAlumId,mCurrentPageIndex);
     }
 
     /**

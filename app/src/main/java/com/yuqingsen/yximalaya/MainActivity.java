@@ -1,20 +1,24 @@
 package com.yuqingsen.yximalaya;
 
+import android.content.Intent;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
+import com.ximalaya.ting.android.opensdk.model.album.Album;
 import com.ximalaya.ting.android.opensdk.model.track.Track;
 import com.ximalaya.ting.android.opensdk.player.service.XmPlayListControl;
 import com.yuqingsen.yximalaya.adapters.IndicatorAdapter;
 import com.yuqingsen.yximalaya.adapters.MainContentAdapter;
 import com.yuqingsen.yximalaya.interfaces.IPlayerCallback;
 import com.yuqingsen.yximalaya.presenters.PlayerPresenter;
+import com.yuqingsen.yximalaya.presenters.RecommendPresenter;
 import com.yuqingsen.yximalaya.utils.LogUtil;
 import com.yuqingsen.yximalaya.views.RoundRectImageView;
 
@@ -36,6 +40,7 @@ public class MainActivity extends FragmentActivity implements IPlayerCallback {
     private TextView mCoverAuthor;
     private ImageView mCoverPlayControl;
     private PlayerPresenter mPlayerPresenter;
+    private View mPlayCoverControl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,8 +60,8 @@ public class MainActivity extends FragmentActivity implements IPlayerCallback {
         indicatorAdapter.setOnIndicatorTabClickListenr(new IndicatorAdapter.OnIndicatorTabClickListener() {
             @Override
             public void onTabClick(int i) {
-                LogUtil.d(TAG,"click index is"+i);
-                if (contentPager!=null){
+                LogUtil.d(TAG, "click index is" + i);
+                if (contentPager != null) {
                     contentPager.setCurrentItem(i);
                 }
             }
@@ -65,14 +70,42 @@ public class MainActivity extends FragmentActivity implements IPlayerCallback {
             @Override
             public void onClick(View v) {
                 if (mPlayerPresenter != null) {
-                    if (mPlayerPresenter.isPlaying()) {
-                        mPlayerPresenter.pause();
-                    }else {
-                        mPlayerPresenter.play();
+                    boolean hasPlayList = mPlayerPresenter.hasPlayList();
+                    if (!hasPlayList) {
+                        //没有设置过播放列表就播放第一个节目
+                        playFirstRecommend();
+                    } else {
+                        if (mPlayerPresenter.isPlaying()) {
+                            mPlayerPresenter.pause();
+                        } else {
+                            mPlayerPresenter.play();
+                        }
                     }
                 }
             }
         });
+        mPlayCoverControl.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean hasPlayList = mPlayerPresenter.hasPlayList();
+                if (!hasPlayList) {
+                    playFirstRecommend();
+                }
+                startActivity(new Intent(MainActivity.this,PlayerActivity.class));
+            }
+        });
+    }
+
+    /**
+     * 播放第一个推荐的内容
+     */
+    private void playFirstRecommend() {
+        List<Album> currentRecommend = RecommendPresenter.getsInstance().getCurrentRecommend();
+        if (currentRecommend != null) {
+            Album album = currentRecommend.get(0);
+            long albumId = album.getId();
+            mPlayerPresenter.playByAlbumId(albumId);
+        }
     }
 
     private void initView() {
@@ -96,7 +129,7 @@ public class MainActivity extends FragmentActivity implements IPlayerCallback {
 
         //绑定
         magicIndicator.setNavigator(commonNavigator);
-        ViewPagerHelper.bind(magicIndicator,contentPager);
+        ViewPagerHelper.bind(magicIndicator, contentPager);
 
         //底部播放控制相关
         mRoundRectImageView = this.findViewById(R.id.track_main_cover);
@@ -104,12 +137,13 @@ public class MainActivity extends FragmentActivity implements IPlayerCallback {
         mCoverTitle.setSelected(true);
         mCoverAuthor = this.findViewById(R.id.track_main_cover_author);
         mCoverPlayControl = this.findViewById(R.id.track_main_cover_play_control);
+        mPlayCoverControl = this.findViewById(R.id.main_play_cover_control);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (mPlayerPresenter!=null){
+        if (mPlayerPresenter != null) {
             mPlayerPresenter.unregisterViewCallback(this);
         }
     }

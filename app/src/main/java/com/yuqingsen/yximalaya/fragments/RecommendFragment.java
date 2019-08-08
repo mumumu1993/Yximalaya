@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 import com.ximalaya.ting.android.opensdk.model.album.Album;
 import com.yuqingsen.yximalaya.DetailActivity;
 import com.yuqingsen.yximalaya.R;
@@ -63,6 +64,8 @@ public class RecommendFragment extends BaseFragment implements IRecommendViewCal
         rootView = layoutInflater.inflate(R.layout.fragment_recommend,container,false);
 
         recommendList = rootView.findViewById(R.id.recommend_list);
+        TwinklingRefreshLayout twinklingRefreshLayout = rootView.findViewById(R.id.over_scroll_view);
+        twinklingRefreshLayout.setPureScrollModeOn();
         //设置布局管理器
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);

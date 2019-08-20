@@ -15,8 +15,8 @@ import com.yuqingsen.yximalaya.R;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RecommendListAdapter extends RecyclerView.Adapter<RecommendListAdapter.InnerHolder> {
-    private static final String TAG = "RecommendListAdapter";
+public class AlbumListAdapter extends RecyclerView.Adapter<AlbumListAdapter.InnerHolder> {
+    private static final String TAG = "AlbumListAdapter";
 
     private List<Album> data = new ArrayList<>();
     private OnRecommendItemClickListener mItemClickListener = null;

@@ -13,6 +13,7 @@
         android:orientation="horizontal">
 
         <ImageView
+            android:id="@+id/search_back"
             android:layout_width="40dp"
             android:layout_height="20dp"
             android:paddingLeft="10dp"
@@ -20,18 +21,20 @@
             android:src="@drawable/selector_search_back" />
 
         <EditText
-            android:textSize="16sp"
+            android:id="@+id/search_input"
             android:layout_width="0dp"
             android:layout_height="30dp"
             android:layout_weight="1"
             android:background="@drawable/shape_edit_text"
+            android:hint="请输入需要搜索的关键字"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:hint="请输入需要搜索的关键字"
             android:singleLine="true"
-            android:textCursorDrawable="@drawable/shape_edit_text_cursor"/>
+            android:textCursorDrawable="@drawable/shape_edit_text_cursor"
+            android:textSize="16sp" />
 
         <TextView
+            android:id="@+id/search_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
@@ -46,5 +49,12 @@
     <FrameLayout
         android:id="@+id/search_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent" />
+   <!-- <com.yuqingsen.yximalaya.views.FlowTextLayout
+        android:id="@+id/flow_text_layout"
+        android:layout_margin="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </com.yuqingsen.yximalaya.views.FlowTextLayout>-->
 </LinearLayout>

@@ -30,7 +30,8 @@ public class SearchPresenter implements ISearchPresenter {
         mYximalayaApi = YximalayaApi.getYximalayaApi();
     }
     private static SearchPresenter sSearchPresenter = null;
-    private static SearchPresenter getSearchPresenter(){
+
+    public static SearchPresenter getSearchPresenter(){
         if (sSearchPresenter == null) {
             synchronized (SearchPresenter.class){
                 if (sSearchPresenter == null) {
@@ -57,15 +58,22 @@ public class SearchPresenter implements ISearchPresenter {
                 List<Album> albums = searchAlbumList.getAlbums();
                 if (albums != null) {
                     LogUtil.d(TAG,"album size ------->"+albums.size());
+                    for (ISearchCallback callback : mCallbacks) {
+                        callback.onSearchResultLoaded(albums);
+                    }
                 }else {
                     LogUtil.d(TAG,"albums is null--------------------");
                 }
+
             }
 
             @Override
             public void onError(int errorCode, String errorMsg) {
                 LogUtil.d(TAG,"searchByKeyword  errorCode------->"+errorCode);
                 LogUtil.d(TAG,"searchByKeyword  errorMsg------->"+errorMsg);
+                for (ISearchCallback callback : mCallbacks) {
+                    callback.onError(errorCode,errorMsg);
+                }
             }
         });
     }
@@ -88,6 +96,9 @@ public class SearchPresenter implements ISearchPresenter {
                 if (hotWordList != null) {
                     List<HotWord> hotWords = hotWordList.getHotWordList();
                     LogUtil.d(TAG,"hotWords size -------->"+hotWords.size());
+                    for (ISearchCallback callback : mCallbacks) {
+                        callback.onHotWordLoaded(hotWords);
+                    }
                 }
             }
 

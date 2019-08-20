@@ -13,7 +13,7 @@ import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 import com.ximalaya.ting.android.opensdk.model.album.Album;
 import com.yuqingsen.yximalaya.DetailActivity;
 import com.yuqingsen.yximalaya.R;
-import com.yuqingsen.yximalaya.adapters.RecommendListAdapter;
+import com.yuqingsen.yximalaya.adapters.AlbumListAdapter;
 import com.yuqingsen.yximalaya.base.BaseFragment;
 import com.yuqingsen.yximalaya.interfaces.IRecommendViewCallback;
 import com.yuqingsen.yximalaya.presenters.AlbumDetailPresenter;
@@ -27,11 +27,11 @@ import net.lucode.hackware.magicindicator.buildins.UIUtil;
 import java.util.List;
 
 
-public class RecommendFragment extends BaseFragment implements IRecommendViewCallback, UILoader.OnRetryClickListener, RecommendListAdapter.OnRecommendItemClickListener {
+public class RecommendFragment extends BaseFragment implements IRecommendViewCallback, UILoader.OnRetryClickListener, AlbumListAdapter.OnRecommendItemClickListener {
     private static final String TAG = "RecommendFragment";
     private View rootView;
     private RecyclerView recommendList;
-    private RecommendListAdapter recommendListAdapter;
+    private AlbumListAdapter recommendListAdapter;
     private RecommendPresenter recommendPresenter;
     private UILoader uiLoader;
     @Override
@@ -80,7 +80,7 @@ public class RecommendFragment extends BaseFragment implements IRecommendViewCal
             }
         });
         //设置适配器
-        recommendListAdapter = new RecommendListAdapter();
+        recommendListAdapter = new AlbumListAdapter();
         recommendList.setAdapter(recommendListAdapter);
         recommendListAdapter.setOnRecommendItemClickListener(this);
         return rootView;

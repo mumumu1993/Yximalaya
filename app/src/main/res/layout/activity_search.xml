@@ -20,18 +20,31 @@
             android:paddingRight="10dp"
             android:src="@drawable/selector_search_back" />
 
-        <EditText
-            android:id="@+id/search_input"
+        <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="30dp"
-            android:layout_weight="1"
-            android:background="@drawable/shape_edit_text"
-            android:hint="请输入需要搜索的关键字"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:singleLine="true"
-            android:textCursorDrawable="@drawable/shape_edit_text_cursor"
-            android:textSize="16sp" />
+            android:layout_weight="1">
+
+            <EditText
+                android:id="@+id/search_input"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/shape_edit_text"
+                android:hint="请输入需要搜索的关键字"
+                android:paddingLeft="10dp"
+                android:paddingRight="40dp"
+                android:singleLine="true"
+                android:textCursorDrawable="@drawable/shape_edit_text_cursor"
+                android:textSize="16sp" />
+            <ImageView
+                android:id="@+id/search_input_delete"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginRight="10dp"
+                android:src="@mipmap/input_delete_icon"/>
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/search_btn"
@@ -50,11 +63,4 @@
         android:id="@+id/search_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-   <!-- <com.yuqingsen.yximalaya.views.FlowTextLayout
-        android:id="@+id/flow_text_layout"
-        android:layout_margin="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-    </com.yuqingsen.yximalaya.views.FlowTextLayout>-->
 </LinearLayout>

@@ -68,8 +68,7 @@ public class FlowTextLayout extends ViewGroup {
     }
 
     /**
-     * 测量分两步，先测量孩子，再测量自己，关于自定义控件
-     * 我们会在自定义控件的课程里详细给大家讲解onMeasure，onLayout方法。自定义ViewGroup的步骤。
+     * 测量分两步，先测量孩子，再测量自己
      *
      * @param widthMeasureSpec
      * @param heightMeasureSpec

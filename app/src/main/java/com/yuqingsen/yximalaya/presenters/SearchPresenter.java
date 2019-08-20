@@ -118,6 +118,9 @@ public class SearchPresenter implements ISearchPresenter {
                 if (suggestWords != null) {
                     List<QueryResult> keyWordList = suggestWords.getKeyWordList();
                     LogUtil.d(TAG,"keyWordList size ------->"+keyWordList.size());
+                    for (ISearchCallback callback : mCallbacks) {
+                        callback.onRecommendWordLoaded(keyWordList);
+                    }
                 }
             }
 

@@ -41,6 +41,7 @@ public class MainActivity extends FragmentActivity implements IPlayerCallback {
     private ImageView mCoverPlayControl;
     private PlayerPresenter mPlayerPresenter;
     private View mPlayCoverControl;
+    private View mSearchBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,7 +92,14 @@ public class MainActivity extends FragmentActivity implements IPlayerCallback {
                 if (!hasPlayList) {
                     playFirstRecommend();
                 }
-                startActivity(new Intent(MainActivity.this,PlayerActivity.class));
+                startActivity(new Intent(MainActivity.this, PlayerActivity.class));
+            }
+        });
+        mSearchBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this,SearchActivity.class);
+                startActivity(intent);
             }
         });
     }
@@ -138,6 +146,7 @@ public class MainActivity extends FragmentActivity implements IPlayerCallback {
         mCoverAuthor = this.findViewById(R.id.track_main_cover_author);
         mCoverPlayControl = this.findViewById(R.id.track_main_cover_play_control);
         mPlayCoverControl = this.findViewById(R.id.main_play_cover_control);
+        mSearchBtn = this.findViewById(R.id.search_btn_main);
     }
 
     @Override

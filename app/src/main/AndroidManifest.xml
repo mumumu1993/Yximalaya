@@ -30,10 +30,18 @@
         </activity>
         <activity
             android:name=".DetailActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait">
+
+        </activity>
         <activity
             android:name=".PlayerActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait">
+
+        </activity>
+        <activity android:name=".SearchActivity"
+            android:screenOrientation="portrait">
+
+        </activity>
 
         <service
             android:name="com.ximalaya.ting.android.opensdk.player.service.XmPlayerService"

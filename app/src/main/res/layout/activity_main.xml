@@ -18,6 +18,7 @@
             android:layout_weight="3" />
 
         <RelativeLayout
+            android:id="@+id/search_btn_main"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1">

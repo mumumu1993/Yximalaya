@@ -2,6 +2,7 @@ package com.yuqingsen.yximalaya.adapters;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,6 +61,10 @@ public class AlbumListAdapter extends RecyclerView.Adapter<AlbumListAdapter.Inne
         notifyDataSetChanged();
     }
 
+    public int getDataSize() {
+        return data.size();
+    }
+
     public class InnerHolder extends RecyclerView.ViewHolder {
 
         public InnerHolder(@NonNull View itemView) {
@@ -87,8 +92,10 @@ public class AlbumListAdapter extends RecyclerView.Adapter<AlbumListAdapter.Inne
                 albumContentSize.setText(album.getIncludeTrackCount() + "");
 
                 String url = album.getCoverUrlLarge();
-                if (url != null && !"".equals(url)) {
-                    Picasso.with(itemView.getContext()).load(url).placeholder(R.mipmap.ic_fm).error(R.mipmap.ic_fm).resize(68, 65).into(albumCoverIv);
+                if (!TextUtils.isEmpty(url)) {
+                    Picasso.with(itemView.getContext()).load(url).into(albumCoverIv);
+                }else {
+                    albumCoverIv.setImageResource(R.mipmap.ic_fm);
                 }
             }
         }

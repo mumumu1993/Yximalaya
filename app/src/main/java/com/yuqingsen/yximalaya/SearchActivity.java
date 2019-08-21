@@ -72,6 +72,14 @@ public class SearchActivity extends BaseActivity implements ISearchCallback {
     }
 
     private void initEvent() {
+        if (mRecommendAdapter != null) {
+            mRecommendAdapter.setItemClickListener(new SearchRecommendAdapter.ItemClickListener() {
+                @Override
+                public void onItemClick(String keyWord) {
+                    //todo:
+                }
+            });
+        }
         mDelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -217,6 +225,15 @@ public class SearchActivity extends BaseActivity implements ISearchCallback {
         //设置布局管理器
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         mSearchRecommendList.setLayoutManager(linearLayoutManager);
+        mSearchRecommendList.addItemDecoration(new RecyclerView.ItemDecoration() {
+            @Override
+            public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
+                outRect.top = UIUtil.dip2px(view.getContext(),2);
+                outRect.bottom = UIUtil.dip2px(view.getContext(),2);
+                outRect.left = UIUtil.dip2px(view.getContext(),5);
+                outRect.right = UIUtil.dip2px(view.getContext(),5);
+            }
+        });
         //设置适配器
         mRecommendAdapter = new SearchRecommendAdapter();
         mSearchRecommendList.setAdapter(mRecommendAdapter);

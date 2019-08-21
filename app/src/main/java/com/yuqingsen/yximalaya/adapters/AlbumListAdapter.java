@@ -24,7 +24,7 @@ public class AlbumListAdapter extends RecyclerView.Adapter<AlbumListAdapter.Inne
     @NonNull
     @Override
     public InnerHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_recommend,viewGroup,false);
+        View itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.item_recommend, viewGroup, false);
         return new InnerHolder(itemView);
     }
 
@@ -36,7 +36,7 @@ public class AlbumListAdapter extends RecyclerView.Adapter<AlbumListAdapter.Inne
             public void onClick(View v) {
                 if (mItemClickListener != null) {
                     int clickPosition = (int) v.getTag();
-                    mItemClickListener.onItemClick(clickPosition,data.get(clickPosition));
+                    mItemClickListener.onItemClick(clickPosition, data.get(clickPosition));
                 }
             }
         });
@@ -45,14 +45,14 @@ public class AlbumListAdapter extends RecyclerView.Adapter<AlbumListAdapter.Inne
 
     @Override
     public int getItemCount() {
-        if (data!=null){
+        if (data != null) {
             return data.size();
         }
         return 0;
     }
 
     public void setData(List<Album> albumList) {
-        if (data!=null){
+        if (data != null) {
             data.clear();
             data.addAll(albumList);
         }
@@ -67,30 +67,38 @@ public class AlbumListAdapter extends RecyclerView.Adapter<AlbumListAdapter.Inne
         }
 
         public void setData(Album album) {
-            //找到控件，设置数据
-            //专辑封面
-            ImageView albumCoverIv = itemView.findViewById(R.id.album_cover);
-            //标题
-            TextView albumTitleTv = itemView.findViewById(R.id.album_title_tv);
-            //描述
-            TextView albumDesTv = itemView.findViewById(R.id.album_description_tv);
-            //播放数量
-            TextView albumPlayCount = itemView.findViewById(R.id.album_play_count);
-            //专辑内容数量
-            TextView albumContentSize = itemView.findViewById(R.id.album_content_size);
+            if (album != null) {
 
-            albumTitleTv.setText(album.getAlbumTitle());
-            albumDesTv.setText(album.getAlbumIntro());
-            albumPlayCount.setText(album.getPlayCount()+"");
-            albumContentSize.setText(album.getIncludeTrackCount()+"");
+                //找到控件，设置数据
+                //专辑封面
+                ImageView albumCoverIv = itemView.findViewById(R.id.album_cover);
+                //标题
+                TextView albumTitleTv = itemView.findViewById(R.id.album_title_tv);
+                //描述
+                TextView albumDesTv = itemView.findViewById(R.id.album_description_tv);
+                //播放数量
+                TextView albumPlayCount = itemView.findViewById(R.id.album_play_count);
+                //专辑内容数量
+                TextView albumContentSize = itemView.findViewById(R.id.album_content_size);
 
-            Picasso.with(itemView.getContext()).load(album.getCoverUrlLarge()).into(albumCoverIv);
+                albumTitleTv.setText(album.getAlbumTitle());
+                albumDesTv.setText(album.getAlbumIntro());
+                albumPlayCount.setText(album.getPlayCount() + "");
+                albumContentSize.setText(album.getIncludeTrackCount() + "");
+
+                String url = album.getCoverUrlLarge();
+                if (url != null && !"".equals(url)) {
+                    Picasso.with(itemView.getContext()).load(url).placeholder(R.mipmap.ic_fm).error(R.mipmap.ic_fm).resize(68, 65).into(albumCoverIv);
+                }
+            }
         }
     }
-    public void setOnRecommendItemClickListener(OnRecommendItemClickListener listener){
+
+    public void setOnRecommendItemClickListener(OnRecommendItemClickListener listener) {
         this.mItemClickListener = listener;
     }
-    public interface OnRecommendItemClickListener{
+
+    public interface OnRecommendItemClickListener {
         void onItemClick(int position, Album album);
     }
 }

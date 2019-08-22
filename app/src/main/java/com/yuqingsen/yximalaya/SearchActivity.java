@@ -1,6 +1,7 @@
 package com.yuqingsen.yximalaya;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -28,6 +29,7 @@ import com.yuqingsen.yximalaya.adapters.AlbumListAdapter;
 import com.yuqingsen.yximalaya.adapters.SearchRecommendAdapter;
 import com.yuqingsen.yximalaya.base.BaseActivity;
 import com.yuqingsen.yximalaya.interfaces.ISearchCallback;
+import com.yuqingsen.yximalaya.presenters.AlbumDetailPresenter;
 import com.yuqingsen.yximalaya.presenters.SearchPresenter;
 import com.yuqingsen.yximalaya.utils.Constants;
 import com.yuqingsen.yximalaya.utils.LogUtil;
@@ -40,7 +42,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class SearchActivity extends BaseActivity implements ISearchCallback {
+public class SearchActivity extends BaseActivity implements ISearchCallback, AlbumListAdapter.OnRecommendItemClickListener {
 
     private View mBackBtn;
     private EditText mInputBox;
@@ -58,6 +60,7 @@ public class SearchActivity extends BaseActivity implements ISearchCallback {
     private RecyclerView mSearchRecommendList;
     private SearchRecommendAdapter mRecommendAdapter;
     private TwinklingRefreshLayout mRefreshLayout;
+    private boolean mNeedSuggestWords = true;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -77,10 +80,13 @@ public class SearchActivity extends BaseActivity implements ISearchCallback {
     }
 
     private void initEvent() {
+        mAlbumListAdapter.setOnRecommendItemClickListener(this);
+
         if (mRecommendAdapter != null) {
             mRecommendAdapter.setItemClickListener(new SearchRecommendAdapter.ItemClickListener() {
                 @Override
                 public void onItemClick(String keyWord) {
+                    mNeedSuggestWords = false;
                     switch2Search(keyWord);
                 }
             });
@@ -94,6 +100,7 @@ public class SearchActivity extends BaseActivity implements ISearchCallback {
         mFlowTextLayout.setClickListener(new FlowTextLayout.ItemClickListener() {
             @Override
             public void onItemClick(String text) {
+                mNeedSuggestWords = false;
                 switch2Search(text);
             }
         });
@@ -108,6 +115,10 @@ public class SearchActivity extends BaseActivity implements ISearchCallback {
             public void onClick(View v) {
                 //调用搜索逻辑
                 String keyWord = mInputBox.getText().toString().trim();
+                if (TextUtils.isEmpty(keyWord)) {
+                    Toast.makeText(SearchActivity.this,"搜索关键字不能为空",Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 if (mSearchPresenter != null) {
                     mSearchPresenter.doSearch(keyWord);
                     if (mUILoader != null) {
@@ -124,14 +135,18 @@ public class SearchActivity extends BaseActivity implements ISearchCallback {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+
                 if (TextUtils.isEmpty(s)) {
                     mSearchPresenter.getHotWord();
                     mDelBtn.setVisibility(View.GONE);
                 } else {
-
                     mDelBtn.setVisibility(View.VISIBLE);
-                    //触发联想查询
-                    getSuggest(s.toString());
+                    if (mNeedSuggestWords) {
+                        //触发联想查询
+                        getSuggest(s.toString());
+                    }else {
+                        mNeedSuggestWords = true;
+                    }
                 }
             }
 
@@ -162,6 +177,10 @@ public class SearchActivity extends BaseActivity implements ISearchCallback {
     }
 
     private void switch2Search(String text) {
+        if (TextUtils.isEmpty(text)) {
+            Toast.makeText(this,"搜索关键字不能为空",Toast.LENGTH_SHORT).show();
+            return;
+        }
         //第一步把热词扔到输入框里
         mInputBox.setText(text);
         mInputBox.setSelection(text.length());
@@ -222,7 +241,8 @@ public class SearchActivity extends BaseActivity implements ISearchCallback {
         View resultView = LayoutInflater.from(this).inflate(R.layout.search_result_layout, null);
         //刷新控件
         mRefreshLayout = resultView.findViewById(R.id.search_result_refresh_layout);
-        mRefreshLayout.setOverScrollBottomShow(false);
+        mRefreshLayout.setEnableRefresh(false);
+
         //显示热词
         mFlowTextLayout = resultView.findViewById(R.id.recommend_hot_word_list);
 
@@ -354,5 +374,13 @@ public class SearchActivity extends BaseActivity implements ISearchCallback {
         mSearchRecommendList.setVisibility(View.GONE);
         mFlowTextLayout.setVisibility(View.GONE);
         mRefreshLayout.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onItemClick(int position, Album album) {
+        AlbumDetailPresenter.getsInstance().setTargetAlbum(album);
+        //item被点击了,跳转到详情界面
+        Intent intent = new Intent(this,DetailActivity.class);
+        startActivity(intent);
     }
 }

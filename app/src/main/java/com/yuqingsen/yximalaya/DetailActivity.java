@@ -168,6 +168,7 @@ public class DetailActivity extends BaseActivity implements IAlbumDeatilViewCall
         View detailListView = LayoutInflater.from(this).inflate(R.layout.item_detail_list, container, false);
         detailList = detailListView.findViewById(R.id.album_detail_list);
         mRefreshLayout = detailListView.findViewById(R.id.refresh_layout);
+        mRefreshLayout.setEnableRefresh(false);
         //设置布局管理器
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         detailList.setLayoutManager(layoutManager);

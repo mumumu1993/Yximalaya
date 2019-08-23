@@ -17,7 +17,7 @@ import com.ximalaya.ting.android.opensdk.player.constants.PlayerConstants;
 import com.ximalaya.ting.android.opensdk.player.service.IXmPlayerStatusListener;
 import com.ximalaya.ting.android.opensdk.player.service.XmPlayListControl;
 import com.ximalaya.ting.android.opensdk.player.service.XmPlayerException;
-import com.yuqingsen.yximalaya.api.YximalayaApi;
+import com.yuqingsen.yximalaya.data.YximalayaApi;
 import com.yuqingsen.yximalaya.base.BaseApplication;
 import com.yuqingsen.yximalaya.interfaces.IPlayerCallback;
 import com.yuqingsen.yximalaya.interfaces.IPlayerPresenter;

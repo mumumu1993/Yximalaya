@@ -1,4 +1,4 @@
-package com.yuqingsen.yximalaya.api;
+package com.yuqingsen.yximalaya.data;
 
 import com.ximalaya.ting.android.opensdk.constants.DTransferConstants;
 import com.ximalaya.ting.android.opensdk.datatrasfer.CommonRequest;

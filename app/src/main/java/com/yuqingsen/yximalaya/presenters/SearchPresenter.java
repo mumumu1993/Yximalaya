@@ -9,7 +9,7 @@ import com.ximalaya.ting.android.opensdk.model.word.HotWord;
 import com.ximalaya.ting.android.opensdk.model.word.HotWordList;
 import com.ximalaya.ting.android.opensdk.model.word.QueryResult;
 import com.ximalaya.ting.android.opensdk.model.word.SuggestWords;
-import com.yuqingsen.yximalaya.api.YximalayaApi;
+import com.yuqingsen.yximalaya.data.YximalayaApi;
 import com.yuqingsen.yximalaya.interfaces.ISearchCallback;
 import com.yuqingsen.yximalaya.interfaces.ISearchPresenter;
 import com.yuqingsen.yximalaya.utils.Constants;

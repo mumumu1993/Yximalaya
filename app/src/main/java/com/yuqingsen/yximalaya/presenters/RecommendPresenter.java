@@ -2,12 +2,10 @@ package com.yuqingsen.yximalaya.presenters;
 
 import android.support.annotation.Nullable;
 
-import com.ximalaya.ting.android.opensdk.constants.DTransferConstants;
-import com.ximalaya.ting.android.opensdk.datatrasfer.CommonRequest;
 import com.ximalaya.ting.android.opensdk.datatrasfer.IDataCallBack;
 import com.ximalaya.ting.android.opensdk.model.album.Album;
 import com.ximalaya.ting.android.opensdk.model.album.GussLikeAlbumList;
-import com.yuqingsen.yximalaya.api.YximalayaApi;
+import com.yuqingsen.yximalaya.data.YximalayaApi;
 import com.yuqingsen.yximalaya.interfaces.IRecommendPresenter;
 import com.yuqingsen.yximalaya.interfaces.IRecommendViewCallback;
 import com.yuqingsen.yximalaya.utils.LogUtil;

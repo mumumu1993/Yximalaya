@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class FragmentCreator {
     public final static int INDEX_RECOMMEND = 0;
-    public final static int INDEX_SUBCRIPTION = 1;
+    public final static int INDEX_SUBSCRIPTION = 1;
     public final static int INDEX_HISTORY = 2;
 
     public final static int PAGE_COUNT = 3;
@@ -26,7 +26,7 @@ public class FragmentCreator {
             case INDEX_RECOMMEND:
                 baseFragment =new RecommendFragment();
                 break;
-            case INDEX_SUBCRIPTION:
+            case INDEX_SUBSCRIPTION:
                 baseFragment = new SubscriptionFragment();
                 break;
             case INDEX_HISTORY:

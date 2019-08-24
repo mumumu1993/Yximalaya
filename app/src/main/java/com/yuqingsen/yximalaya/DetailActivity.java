@@ -319,7 +319,7 @@ public class DetailActivity extends BaseActivity implements IAlbumDeatilViewCall
             });
         }
         if (smallCover != null) {
-            Picasso.with(this).load(album.getCoverUrlSmall()).into(smallCover);
+            Picasso.with(this).load(album.getCoverUrlLarge()).into(smallCover);
         }
     }
 

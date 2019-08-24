@@ -21,6 +21,7 @@ public class AlbumListAdapter extends RecyclerView.Adapter<AlbumListAdapter.Inne
 
     private List<Album> data = new ArrayList<>();
     private OnAlbumItemClickListener mItemClickListener = null;
+    private OnAlbumItemLongPressListener mLongPressListener = null;
 
     @NonNull
     @Override
@@ -42,6 +43,17 @@ public class AlbumListAdapter extends RecyclerView.Adapter<AlbumListAdapter.Inne
             }
         });
         innerHolder.setData(data.get(i));
+        innerHolder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                if (mLongPressListener != null) {
+                    int clickPosition = (int) v.getTag();
+                    mLongPressListener.onItemLongPress(data.get(clickPosition));
+                }
+                //true表示消费掉该事件
+                return true;
+            }
+        });
     }
 
     @Override
@@ -107,5 +119,15 @@ public class AlbumListAdapter extends RecyclerView.Adapter<AlbumListAdapter.Inne
 
     public interface OnAlbumItemClickListener {
         void onItemClick(int position, Album album);
+    }
+
+    public void setOnAlbumItemLongPressListener(OnAlbumItemLongPressListener longPressListener){
+        this.mLongPressListener = longPressListener;
+    }
+    /**
+     * 长按接口
+     */
+    public interface OnAlbumItemLongPressListener {
+        void onItemLongPress(Album album);
     }
 }

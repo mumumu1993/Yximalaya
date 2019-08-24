@@ -117,7 +117,7 @@ public class MainActivity extends FragmentActivity implements IPlayerCallback {
     }
 
     private void initView() {
-        magicIndicator = findViewById(R.id.main_indicator);
+        magicIndicator = this.findViewById(R.id.main_indicator);
         magicIndicator.setBackgroundColor(this.getResources().getColor(R.color.main_color));
         //创建适配器
         indicatorAdapter = new IndicatorAdapter(this);

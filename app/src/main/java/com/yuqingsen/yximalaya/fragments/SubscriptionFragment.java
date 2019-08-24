@@ -20,13 +20,13 @@ import com.yuqingsen.yximalaya.interfaces.ISubscriptionCallback;
 import com.yuqingsen.yximalaya.interfaces.ISubscriptionPresenter;
 import com.yuqingsen.yximalaya.presenters.AlbumDetailPresenter;
 import com.yuqingsen.yximalaya.presenters.SubscriptionPresenter;
+import com.yuqingsen.yximalaya.views.ConfirmDialog;
 
 import net.lucode.hackware.magicindicator.buildins.UIUtil;
 
-import java.util.Collections;
 import java.util.List;
 
-public class SubscriptionFragment extends BaseFragment implements ISubscriptionCallback, AlbumListAdapter.OnAlbumItemClickListener {
+public class SubscriptionFragment extends BaseFragment implements ISubscriptionCallback, AlbumListAdapter.OnAlbumItemClickListener, AlbumListAdapter.OnAlbumItemLongPressListener, ConfirmDialog.OnDialogActionClickListener {
 
     private ISubscriptionPresenter mSubscriptionPresenter;
     private RecyclerView mSubListView;
@@ -51,6 +51,7 @@ public class SubscriptionFragment extends BaseFragment implements ISubscriptionC
         });
         mAlbumListAdapter = new AlbumListAdapter();
         mAlbumListAdapter.setOnAlbumItemClickListener(this);
+        mAlbumListAdapter.setOnAlbumItemLongPressListener(this);
         mSubListView.setAdapter(mAlbumListAdapter);
         mSubscriptionPresenter = SubscriptionPresenter.getInstance();
         mSubscriptionPresenter.registerViewCallback(this);
@@ -95,5 +96,24 @@ public class SubscriptionFragment extends BaseFragment implements ISubscriptionC
         AlbumDetailPresenter.getsInstance().setTargetAlbum(album);
         Intent intent = new Intent(getContext(),DetailActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void onItemLongPress(Album album) {
+        //订阅的Item被长按了
+        //Toast.makeText(BaseApplication.getAppContext(),"订阅被长按了",Toast.LENGTH_SHORT).show();
+        ConfirmDialog confirmDialog = new ConfirmDialog(getActivity());
+        confirmDialog.setOnDialogActionClickListener(this);
+        confirmDialog.show();
+    }
+
+    @Override
+    public void onCancelSubClick() {
+        //取消订阅
+    }
+
+    @Override
+    public void onGiveUpClick() {
+        //放弃取消订阅
     }
 }

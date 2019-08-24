@@ -6,6 +6,7 @@ import com.yuqingsen.yximalaya.data.ISubDaoCallback;
 import com.yuqingsen.yximalaya.data.SubscriptionDao;
 import com.yuqingsen.yximalaya.interfaces.ISubscriptionCallback;
 import com.yuqingsen.yximalaya.interfaces.ISubscriptionPresenter;
+import com.yuqingsen.yximalaya.utils.Constants;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,7 +28,6 @@ public class SubscriptionPresenter implements ISubscriptionPresenter, ISubDaoCal
     private SubscriptionPresenter(){
         mSubscriptionDao = SubscriptionDao.getInstance();
         mSubscriptionDao.setCallback(this);
-        listSubscriptions();
     };
     private void listSubscriptions(){
         Observable.create(new ObservableOnSubscribe<Object>() {
@@ -41,18 +41,23 @@ public class SubscriptionPresenter implements ISubscriptionPresenter, ISubDaoCal
         }).subscribeOn(Schedulers.io()).subscribe();
     }
     private static SubscriptionPresenter sInstance = null;
-    public static SubscriptionPresenter getInstance(){
+    public static ISubscriptionPresenter getInstance(){
         if (sInstance == null) {
             synchronized (SubscriptionPresenter.class){
-                if (sInstance == null){
                     sInstance = new SubscriptionPresenter();
-                }
             }
         }
         return sInstance;
     }
     @Override
     public void addSubscription(final Album album) {
+        //判断当前的订阅数量，不能超过100个
+        if (mData.size()>= Constants.COUNT_SUB_MAX) {
+            for (ISubscriptionCallback callback : mCallbacks) {
+                callback.onSubFull();
+            }
+            return;
+        }
         Observable.create(new ObservableOnSubscribe<Object>() {
             @Override
             public void subscribe(ObservableEmitter<Object> emitter) throws Exception {
@@ -83,12 +88,12 @@ public class SubscriptionPresenter implements ISubscriptionPresenter, ISubDaoCal
     @Override
     public boolean isSub(Album album) {
         Album result = mData.get(album.getId());
-        return result == null;
+        return result != null;
     }
 
     @Override
     public void registerViewCallback(ISubscriptionCallback iSubscriptionCallback) {
-        if (mCallbacks.contains(iSubscriptionCallback)) {
+        if (!mCallbacks.contains(iSubscriptionCallback)) {
             mCallbacks.add(iSubscriptionCallback);
         }
     }
@@ -127,6 +132,7 @@ public class SubscriptionPresenter implements ISubscriptionPresenter, ISubDaoCal
     @Override
     public void onSubListLoaded(final List<Album> result) {
         //加载数据的回调
+        mData.clear();
         for (Album album : result) {
             mData.put(album.getId(),album);
         }

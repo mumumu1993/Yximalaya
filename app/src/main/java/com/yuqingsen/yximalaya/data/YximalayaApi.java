@@ -18,7 +18,6 @@ public class YximalayaApi {
     private YximalayaApi(){
     }
     private static YximalayaApi sYximalayaApi;
-    public short YximalayaApi;
 
     public static YximalayaApi getYximalayaApi() {
         if (sYximalayaApi == null) {

@@ -20,7 +20,7 @@ public class AlbumListAdapter extends RecyclerView.Adapter<AlbumListAdapter.Inne
     private static final String TAG = "AlbumListAdapter";
 
     private List<Album> data = new ArrayList<>();
-    private OnRecommendItemClickListener mItemClickListener = null;
+    private OnAlbumItemClickListener mItemClickListener = null;
 
     @NonNull
     @Override
@@ -101,11 +101,11 @@ public class AlbumListAdapter extends RecyclerView.Adapter<AlbumListAdapter.Inne
         }
     }
 
-    public void setOnRecommendItemClickListener(OnRecommendItemClickListener listener) {
+    public void setOnAlbumItemClickListener(OnAlbumItemClickListener listener) {
         this.mItemClickListener = listener;
     }
 
-    public interface OnRecommendItemClickListener {
+    public interface OnAlbumItemClickListener {
         void onItemClick(int position, Album album);
     }
 }

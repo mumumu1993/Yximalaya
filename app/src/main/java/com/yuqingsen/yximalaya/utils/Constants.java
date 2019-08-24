@@ -23,4 +23,6 @@ public class Constants {
     public static final String SUB_TRACKS_COUNT = "tracksCount";
     public static final String SUB_AUTHOR_NAME = "authorName";
     public static final String SUB_ALBUM_ID = "albumId";
+    //订阅最多个数
+    public static final int COUNT_SUB_MAX = 100;
 }

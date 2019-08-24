@@ -31,7 +31,6 @@ import com.yuqingsen.yximalaya.base.BaseActivity;
 import com.yuqingsen.yximalaya.interfaces.ISearchCallback;
 import com.yuqingsen.yximalaya.presenters.AlbumDetailPresenter;
 import com.yuqingsen.yximalaya.presenters.SearchPresenter;
-import com.yuqingsen.yximalaya.utils.Constants;
 import com.yuqingsen.yximalaya.utils.LogUtil;
 import com.yuqingsen.yximalaya.views.FlowTextLayout;
 import com.yuqingsen.yximalaya.views.UILoader;
@@ -42,7 +41,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class SearchActivity extends BaseActivity implements ISearchCallback, AlbumListAdapter.OnRecommendItemClickListener {
+public class SearchActivity extends BaseActivity implements ISearchCallback, AlbumListAdapter.OnAlbumItemClickListener {
 
     private View mBackBtn;
     private EditText mInputBox;
@@ -80,7 +79,7 @@ public class SearchActivity extends BaseActivity implements ISearchCallback, Alb
     }
 
     private void initEvent() {
-        mAlbumListAdapter.setOnRecommendItemClickListener(this);
+        mAlbumListAdapter.setOnAlbumItemClickListener(this);
 
         if (mRecommendAdapter != null) {
             mRecommendAdapter.setItemClickListener(new SearchRecommendAdapter.ItemClickListener() {

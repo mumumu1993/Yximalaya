@@ -28,6 +28,7 @@ public class SubscriptionPresenter implements ISubscriptionPresenter, ISubDaoCal
     private SubscriptionPresenter(){
         mSubscriptionDao = SubscriptionDao.getInstance();
         mSubscriptionDao.setCallback(this);
+        listSubscriptions();
     };
     private void listSubscriptions(){
         Observable.create(new ObservableOnSubscribe<Object>() {
@@ -41,7 +42,7 @@ public class SubscriptionPresenter implements ISubscriptionPresenter, ISubDaoCal
         }).subscribeOn(Schedulers.io()).subscribe();
     }
     private static SubscriptionPresenter sInstance = null;
-    public static ISubscriptionPresenter getInstance(){
+    public static SubscriptionPresenter getInstance(){
         if (sInstance == null) {
             synchronized (SubscriptionPresenter.class){
                     sInstance = new SubscriptionPresenter();
@@ -105,6 +106,7 @@ public class SubscriptionPresenter implements ISubscriptionPresenter, ISubDaoCal
 
     @Override
     public void onAddResult(final boolean isSuccess) {
+        listSubscriptions();
         //添加结果的回调
         BaseApplication.getsHandler().post(new Runnable() {
             @Override
@@ -118,6 +120,7 @@ public class SubscriptionPresenter implements ISubscriptionPresenter, ISubDaoCal
 
     @Override
     public void onDelResult(final boolean isSuccess) {
+        listSubscriptions();
         //删除订阅结果的回调
         BaseApplication.getsHandler().post(new Runnable() {
             @Override

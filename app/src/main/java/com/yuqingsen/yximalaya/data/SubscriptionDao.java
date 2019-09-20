@@ -17,7 +17,7 @@ public class SubscriptionDao implements ISubDao {
     private static final String TAG = "SubscriptionDao";
     private static final SubscriptionDao ourInstance = new SubscriptionDao();
 
-    private final YximalayaDBHelper mYximalayaDBHelper;
+    private YximalayaDBHelper mYximalayaDBHelper = null;
     private ISubDaoCallback mCallback = null;
 
     public static SubscriptionDao getInstance() {
@@ -25,7 +25,10 @@ public class SubscriptionDao implements ISubDao {
     }
 
     private SubscriptionDao() {
-        mYximalayaDBHelper = new  YximalayaDBHelper(BaseApplication.getAppContext());
+        if (mYximalayaDBHelper == null) {
+            mYximalayaDBHelper = new  YximalayaDBHelper(BaseApplication.getAppContext());
+        }
+
     }
 
     @Override

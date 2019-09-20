@@ -37,7 +37,7 @@ public class SubscriptionDao implements ISubDao {
     }
 
     @Override
-    public void addAlbum(Album album) {
+    public synchronized void addAlbum(Album album) {
         SQLiteDatabase db = null;
         boolean isAddAlbumSuccess = false;
         try {
@@ -71,7 +71,7 @@ public class SubscriptionDao implements ISubDao {
     }
 
     @Override
-    public void delAlbum(Album album) {
+    public synchronized void delAlbum(Album album) {
         SQLiteDatabase db = null;
         boolean isDelSuccess = false;
         try {
@@ -96,7 +96,7 @@ public class SubscriptionDao implements ISubDao {
     }
 
     @Override
-    public void listAlbum() {
+    public synchronized void listAlbum() {
         SQLiteDatabase db = null;
         List<Album> result = new ArrayList<>();
         try {

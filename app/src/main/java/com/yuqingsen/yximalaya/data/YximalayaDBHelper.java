@@ -19,7 +19,7 @@ public class YximalayaDBHelper extends SQLiteOpenHelper {
         //图片、title、描述、播放量、节目数量、作者名称、专辑ID
         String subTbSql = "create table "+Constants.SUB_TB_NAME+"("+
                 Constants.SUB_ID+" integer primary key autoincrement,"+
-                Constants.SUB_COVER_URL+" varchar, "+
+                Constants.SUB_COVER_URL+" varchar,"+
                 Constants.SUB_TITLE+" varchar," +
                 Constants.SUB_DESCRIPTION+" varchar," +
                 Constants.SUB_PLAY_COUNT+" integer," +

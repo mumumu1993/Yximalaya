@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -222,6 +223,13 @@ public class SearchActivity extends BaseActivity implements ISearchCallback, Alb
                 @Override
                 protected View getSuccessView(ViewGroup container) {
                     return createSuccessView();
+                }
+                @Override
+                protected View getEmptyView() {
+                    View emptyView = LayoutInflater.from(getContext()).inflate(R.layout.fragment_empty_view,this,false);
+                    TextView tipsView = emptyView.findViewById(R.id.empty_view_tips_tv);
+                    tipsView.setText("没有相关内容");
+                    return emptyView;
                 }
             };
             if (mUILoader.getParent() instanceof ViewGroup) {

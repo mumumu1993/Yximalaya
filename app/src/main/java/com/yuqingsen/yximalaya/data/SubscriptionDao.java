@@ -14,8 +14,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SubscriptionDao implements ISubDao {
-    private static final SubscriptionDao ourInstance = new SubscriptionDao();
     private static final String TAG = "SubscriptionDao";
+    private static final SubscriptionDao ourInstance = new SubscriptionDao();
+
     private final YximalayaDBHelper mYximalayaDBHelper;
     private ISubDaoCallback mCallback = null;
 
@@ -24,7 +25,7 @@ public class SubscriptionDao implements ISubDao {
     }
 
     private SubscriptionDao() {
-        mYximalayaDBHelper = new YximalayaDBHelper(BaseApplication.getAppContext());
+        mYximalayaDBHelper = new  YximalayaDBHelper(BaseApplication.getAppContext());
     }
 
     @Override
@@ -125,8 +126,8 @@ public class SubscriptionDao implements ISubDao {
                 //节目ID
                 int albumId = query.getInt(query.getColumnIndex(Constants.SUB_ALBUM_ID));
                 album.setId(albumId);
-
                 result.add(album);
+
             }
             //把数据通知出去
             if (mCallback != null) {
@@ -136,7 +137,7 @@ public class SubscriptionDao implements ISubDao {
             db.setTransactionSuccessful();
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
+        }finally {
             if (db != null) {
                 db.endTransaction();
                 db.close();

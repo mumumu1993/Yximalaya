@@ -28,7 +28,6 @@ public class SubscriptionPresenter implements ISubscriptionPresenter, ISubDaoCal
     private SubscriptionPresenter(){
         mSubscriptionDao = SubscriptionDao.getInstance();
         mSubscriptionDao.setCallback(this);
-        listSubscriptions();
     };
     private void listSubscriptions(){
         Observable.create(new ObservableOnSubscribe<Object>() {
@@ -42,10 +41,13 @@ public class SubscriptionPresenter implements ISubscriptionPresenter, ISubDaoCal
         }).subscribeOn(Schedulers.io()).subscribe();
     }
     private static SubscriptionPresenter sInstance = null;
+
     public static SubscriptionPresenter getInstance(){
         if (sInstance == null) {
             synchronized (SubscriptionPresenter.class){
+                if (sInstance == null) {
                     sInstance = new SubscriptionPresenter();
+                }
             }
         }
         return sInstance;
@@ -149,4 +151,5 @@ public class SubscriptionPresenter implements ISubscriptionPresenter, ISubDaoCal
             }
         });
     }
+
 }

@@ -2,16 +2,14 @@ package com.yuqingsen.yximalaya.fragments;
 
 import android.content.Intent;
 import android.graphics.Rect;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
@@ -22,7 +20,6 @@ import com.yuqingsen.yximalaya.adapters.AlbumListAdapter;
 import com.yuqingsen.yximalaya.base.BaseApplication;
 import com.yuqingsen.yximalaya.base.BaseFragment;
 import com.yuqingsen.yximalaya.interfaces.ISubscriptionCallback;
-import com.yuqingsen.yximalaya.interfaces.ISubscriptionPresenter;
 import com.yuqingsen.yximalaya.presenters.AlbumDetailPresenter;
 import com.yuqingsen.yximalaya.presenters.SubscriptionPresenter;
 import com.yuqingsen.yximalaya.views.ConfirmDialog;
@@ -49,21 +46,25 @@ public class SubscriptionFragment extends BaseFragment implements ISubscriptionC
                 protected View getSuccessView(ViewGroup container) {
                     return createSuccessView();
                 }
+
+                @Override
+                protected View getEmptyView() {
+                    View emptyView = LayoutInflater.from(getContext()).inflate(R.layout.fragment_empty_view,this,false);
+                    TextView tipsView = emptyView.findViewById(R.id.empty_view_tips_tv);
+                    tipsView.setText("没有订阅的内容");
+                    return emptyView;
+                }
             };
             if(mUiLoader.getParent() instanceof ViewGroup){
                 ((ViewGroup) mUiLoader.getParent()).removeView(mUiLoader);
             }
             rootView.addView(mUiLoader);
         }
-
-
-
-
         return rootView;
     }
 
     private View createSuccessView() {
-        View itemView = LayoutInflater.from(BaseApplication.getAppContext()).inflate(R.layout.item_subscription,null);
+        View itemView = LayoutInflater.from(getActivity()).inflate(R.layout.item_subscription,null);
         TwinklingRefreshLayout twinklingRefreshLayout = itemView.findViewById(R.id.sub_over_scroll_view);
         twinklingRefreshLayout.setEnableRefresh(false);
         twinklingRefreshLayout.setEnableLoadmore(false);
@@ -113,7 +114,6 @@ public class SubscriptionFragment extends BaseFragment implements ISubscriptionC
                 mUiLoader.updateStatus(UILoader.UIStatus.SUCCESS);
             }
         }
-        //更新UI
         if (mAlbumListAdapter != null) {
             mAlbumListAdapter.setData(albums);
         }

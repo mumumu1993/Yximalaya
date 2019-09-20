@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 import com.ximalaya.ting.android.opensdk.model.album.Album;
 import com.yuqingsen.yximalaya.R;
+import com.yuqingsen.yximalaya.utils.LogUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -99,6 +100,7 @@ public class AlbumListAdapter extends RecyclerView.Adapter<AlbumListAdapter.Inne
                 TextView albumContentSize = itemView.findViewById(R.id.album_content_size);
 
                 albumTitleTv.setText(album.getAlbumTitle());
+                LogUtil.d(TAG,"albumTitleTv ------》"+album.getAlbumTitle());
                 albumDesTv.setText(album.getAlbumIntro());
                 albumPlayCount.setText(album.getPlayCount() + "");
                 albumContentSize.setText(album.getIncludeTrackCount() + "");

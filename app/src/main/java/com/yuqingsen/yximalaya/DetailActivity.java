@@ -143,7 +143,6 @@ public class DetailActivity extends BaseActivity implements IAlbumDeatilViewCall
                     if (mPlayerPresenter != null) {
                         //判断播放器是否有播放列表
                         boolean hasPlayList = mPlayerPresenter.hasPlayList();
-
                         if (hasPlayList) {
                             //控制播放器状态
                             handlePlayControl();

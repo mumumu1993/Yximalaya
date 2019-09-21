@@ -14,7 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DetailListAdapter extends RecyclerView.Adapter<DetailListAdapter.InnerHolder> {
+public class TrackListAdapter extends RecyclerView.Adapter<TrackListAdapter.InnerHolder> {
     private List<Track> detailData = new ArrayList<>();
     //格式化时间
     private SimpleDateFormat updateTimeFormat = new SimpleDateFormat("yyyy-MM-dd");

@@ -133,9 +133,6 @@ public class SubscriptionDao implements ISubDao {
 
             }
             //把数据通知出去
-            if (mCallback != null) {
-                mCallback.onSubListLoaded(result);
-            }
             query.close();
             db.setTransactionSuccessful();
         } catch (Exception e) {
@@ -144,6 +141,9 @@ public class SubscriptionDao implements ISubDao {
             if (db != null) {
                 db.endTransaction();
                 db.close();
+            }
+            if (mCallback != null) {
+                mCallback.onSubListLoaded(result);
             }
         }
     }

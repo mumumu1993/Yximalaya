@@ -114,11 +114,11 @@ public class HistoryDao implements IHistoryDao {
     @Override
     public synchronized void listHistories() {
         SQLiteDatabase db = null;
+        List<Track> histories = new ArrayList<>();
         try {
             db = mDbHelper.getWritableDatabase();
             db.beginTransaction();
             Cursor cursor = db.query(Constants.HISTORY_TB_NAME, null, null, null, null, null, "_id desc");
-            List<Track> histories = new ArrayList<>();
             while (cursor.moveToNext()) {
                 Track track = new Track();
                 int trackId = cursor.getInt(cursor.getColumnIndex(Constants.HISTORY_TRACK_ID));
@@ -137,15 +137,16 @@ public class HistoryDao implements IHistoryDao {
             }
             cursor.close();
             db.setTransactionSuccessful();
-            if (mCallback != null) {
-                mCallback.onHistoriesLoaded(histories);
-            }
+
         }catch (Exception e){
             e.printStackTrace();
         }finally {
             if (db != null) {
                 db.endTransaction();
                 db.close();
+            }
+            if (mCallback != null) {
+                mCallback.onHistoriesLoaded(histories);
             }
         }
 

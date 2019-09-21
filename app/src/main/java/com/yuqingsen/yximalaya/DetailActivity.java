@@ -26,9 +26,8 @@ import com.squareup.picasso.Picasso;
 import com.ximalaya.ting.android.opensdk.model.album.Album;
 import com.ximalaya.ting.android.opensdk.model.track.Track;
 import com.ximalaya.ting.android.opensdk.player.service.XmPlayListControl;
-import com.yuqingsen.yximalaya.adapters.DetailListAdapter;
+import com.yuqingsen.yximalaya.adapters.TrackListAdapter;
 import com.yuqingsen.yximalaya.base.BaseActivity;
-import com.yuqingsen.yximalaya.base.BaseApplication;
 import com.yuqingsen.yximalaya.interfaces.IAlbumDeatilViewCallback;
 import com.yuqingsen.yximalaya.interfaces.IPlayerCallback;
 import com.yuqingsen.yximalaya.interfaces.ISubscriptionCallback;
@@ -45,7 +44,7 @@ import net.lucode.hackware.magicindicator.buildins.UIUtil;
 
 import java.util.List;
 
-public class DetailActivity extends BaseActivity implements IAlbumDeatilViewCallback, UILoader.OnRetryClickListener, DetailListAdapter.ItemClickListener, IPlayerCallback, ISubscriptionCallback {
+public class DetailActivity extends BaseActivity implements IAlbumDeatilViewCallback, UILoader.OnRetryClickListener, TrackListAdapter.ItemClickListener, IPlayerCallback, ISubscriptionCallback {
     private static final String TAG = "DetailActivity";
     private ImageView largeCover;
     private RoundRectImageView smallCover;
@@ -54,7 +53,7 @@ public class DetailActivity extends BaseActivity implements IAlbumDeatilViewCall
     private AlbumDetailPresenter mAlbumDetailPresenter;
     private int currentPage = 1;
     private RecyclerView detailList;
-    private DetailListAdapter detailListAdapter;
+    private TrackListAdapter detailListAdapter;
     private UILoader mUILoader;
     private FrameLayout detailListContainer;
     private long mCurrentId = -1;
@@ -221,7 +220,7 @@ public class DetailActivity extends BaseActivity implements IAlbumDeatilViewCall
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         detailList.setLayoutManager(layoutManager);
         //设置适配器
-        detailListAdapter = new DetailListAdapter();
+        detailListAdapter = new TrackListAdapter();
         detailList.setAdapter(detailListAdapter);
         detailList.addItemDecoration(new RecyclerView.ItemDecoration() {
             @Override

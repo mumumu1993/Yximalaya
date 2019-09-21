@@ -5,7 +5,7 @@ import com.yuqingsen.yximalaya.base.IBasePresenter;
 
 public interface IHistoryPresenter extends IBasePresenter<IHistoryCallback> {
 
-    void listHistorys();
+    void listHistories();
 
     void addHistory(Track track);
 

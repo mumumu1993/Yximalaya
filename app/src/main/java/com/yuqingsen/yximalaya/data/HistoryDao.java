@@ -15,15 +15,13 @@ import java.util.List;
 public class HistoryDao implements IHistoryDao {
 
     private static final String TAG = "HistoryDao";
-    private final YximalayaDBHelper mDbHelper;
+    private YximalayaDBHelper mDbHelper = null;
     private IHistoryDaoCallback mCallback = null;
 
-    private HistoryDao(){
-        mDbHelper = new YximalayaDBHelper(BaseApplication.getAppContext());
-    }
-    private static HistoryDao sHistoryDao = new HistoryDao();
-    public static HistoryDao getHistoryDao(){
-        return sHistoryDao;
+    public HistoryDao(){
+        if (mDbHelper == null) {
+            mDbHelper = new YximalayaDBHelper(BaseApplication.getAppContext());
+        }
     }
     @Override
     public void setCallback(IHistoryDaoCallback callback) {

@@ -35,7 +35,10 @@ public class HistoryDao implements IHistoryDao {
         boolean isAddSuccess = false;
         try {
             db = mDbHelper.getWritableDatabase();
+            //先删除旧的
+            db.delete(Constants.HISTORY_TB_NAME, Constants.HISTORY_TRACK_ID + "=?", new String[]{track.getDataId() + ""});
             db.beginTransaction();
+            //删除以后再添加
             ContentValues values = new ContentValues();
             //封装数据
             values.put(Constants.HISTORY_TRACK_ID,track.getDataId());

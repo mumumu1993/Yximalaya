@@ -3,7 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
     android:layout_height="match_parent">
     <com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
-        android:id="@+id/sub_over_scroll_view"
+        android:id="@+id/history_over_scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#fff4f4f4">

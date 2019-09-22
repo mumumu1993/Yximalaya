@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.ximalaya.ting.android.opensdk.model.album.Announcer;
 import com.ximalaya.ting.android.opensdk.model.track.Track;
 import com.yuqingsen.yximalaya.base.BaseApplication;
 import com.yuqingsen.yximalaya.utils.Constants;
@@ -43,6 +44,7 @@ public class HistoryDao implements IHistoryDao {
             values.put(Constants.HISTORY_DURATION,track.getDuration());
             values.put(Constants.HISTORY_UPDATE_TIME,track.getUpdatedAt());
             values.put(Constants.HISTORY_COVER,track.getCoverUrlLarge());
+            values.put(Constants.HISTORY_AUTHOR,track.getAnnouncer().getNickname());
             //插入数据
             db.insert(Constants.HISTORY_TB_NAME,null,values);
             db.setTransactionSuccessful();
@@ -133,6 +135,10 @@ public class HistoryDao implements IHistoryDao {
                 track.setUpdatedAt(updateTime);
                 String trackCover = cursor.getString(cursor.getColumnIndex(Constants.HISTORY_COVER));
                 track.setCoverUrlLarge(trackCover);
+                String author = cursor.getString(cursor.getColumnIndex(Constants.HISTORY_AUTHOR));
+                Announcer announcer = new Announcer();
+                announcer.setNickname(author);
+                track.setAnnouncer(announcer);
                 histories.add(track);
             }
             cursor.close();

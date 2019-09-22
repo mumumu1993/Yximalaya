@@ -84,7 +84,7 @@ public class HistoryPresenter implements IHistoryPresenter, IHistoryDaoCallback 
     }
 
     @Override
-    public void cleanHistory(Track track) {
+    public void cleanHistory() {
         Observable.create(new ObservableOnSubscribe<Object>() {
             @Override
             public void subscribe(ObservableEmitter<Object> emitter) throws Exception {

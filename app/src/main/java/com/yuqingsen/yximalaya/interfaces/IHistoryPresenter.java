@@ -11,7 +11,7 @@ public interface IHistoryPresenter extends IBasePresenter<IHistoryCallback> {
 
     void delHistory(Track track);
 
-    void cleanHistory(Track track);
+    void cleanHistory();
 
 
 }

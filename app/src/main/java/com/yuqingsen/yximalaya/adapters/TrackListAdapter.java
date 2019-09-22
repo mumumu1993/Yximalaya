@@ -20,6 +20,7 @@ public class TrackListAdapter extends RecyclerView.Adapter<TrackListAdapter.Inne
     private SimpleDateFormat updateTimeFormat = new SimpleDateFormat("yyyy-MM-dd");
     private SimpleDateFormat durationFormat = new SimpleDateFormat("mm：ss");
     private ItemClickListener itemClickListener = null;
+    private ItemLongPressListener mItemLongPressListener = null;
 
     @NonNull
     @Override
@@ -44,7 +45,7 @@ public class TrackListAdapter extends RecyclerView.Adapter<TrackListAdapter.Inne
         TextView updateTimeTv = itemView.findViewById(R.id.detail_item_update_time);
 
         //设置数据
-        Track track = detailData.get(i);
+        final Track track = detailData.get(i);
         orderTv.setText((i + 1) + "");
         titleTv.setText(track.getTrackTitle());
         playCountTv.setText(track.getPlayCount() + "");
@@ -61,6 +62,15 @@ public class TrackListAdapter extends RecyclerView.Adapter<TrackListAdapter.Inne
                 if (itemClickListener != null) {
                     itemClickListener.onItemClick(detailData, i);
                 }
+            }
+        });
+        itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                if(mItemLongPressListener!=null){
+                    mItemLongPressListener.onItemLongPress(track,i);
+                }
+                return true;
             }
         });
     }
@@ -88,5 +98,12 @@ public class TrackListAdapter extends RecyclerView.Adapter<TrackListAdapter.Inne
 
     public interface ItemClickListener {
         void onItemClick(List<Track> detailData, int i);
+    }
+
+    public void setItemLongPressListener(ItemLongPressListener longPressListener){
+        this.mItemLongPressListener = longPressListener;
+    }
+    public interface ItemLongPressListener{
+        void onItemLongPress(Track track,int i);
     }
 }

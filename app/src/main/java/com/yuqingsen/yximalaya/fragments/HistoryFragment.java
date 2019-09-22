@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 import com.ximalaya.ting.android.opensdk.model.track.Track;
@@ -20,17 +21,19 @@ import com.yuqingsen.yximalaya.base.BaseFragment;
 import com.yuqingsen.yximalaya.interfaces.IHistoryCallback;
 import com.yuqingsen.yximalaya.presenters.HistoryPresenter;
 import com.yuqingsen.yximalaya.presenters.PlayerPresenter;
+import com.yuqingsen.yximalaya.views.ConfirmCheckBoxDialog;
 import com.yuqingsen.yximalaya.views.UILoader;
 
 import net.lucode.hackware.magicindicator.buildins.UIUtil;
 
 import java.util.List;
 
-public class HistoryFragment extends BaseFragment implements IHistoryCallback, TrackListAdapter.ItemClickListener {
+public class HistoryFragment extends BaseFragment implements IHistoryCallback, TrackListAdapter.ItemClickListener, TrackListAdapter.ItemLongPressListener, ConfirmCheckBoxDialog.OnDialogActionClickListener {
 
     private UILoader mUiLoader;
     private TrackListAdapter mTrackListAdapter;
     private HistoryPresenter mHistoryPresenter;
+    private Track mCurrentClickHistoryItem =null;
 
     @Override
     protected View onSubViewLoaded(LayoutInflater layoutInflater, ViewGroup container) {
@@ -40,6 +43,14 @@ public class HistoryFragment extends BaseFragment implements IHistoryCallback, T
                 @Override
                 protected View getSuccessView(ViewGroup container) {
                     return createSuccessView(container);
+                }
+
+                @Override
+                protected View getEmptyView() {
+                    View emptyView = LayoutInflater.from(getContext()).inflate(R.layout.fragment_empty_view, this, false);
+                    TextView emptyText = emptyView.findViewById(R.id.empty_view_tips_tv);
+                    emptyText.setText("暂无历史记录");
+                    return emptyView;
                 }
             };
         }else {
@@ -72,6 +83,7 @@ public class HistoryFragment extends BaseFragment implements IHistoryCallback, T
         });
         mTrackListAdapter = new TrackListAdapter();
         mTrackListAdapter.setItemClickListener(this);
+        mTrackListAdapter.setItemLongPressListener(this);
         historyList.setAdapter(mTrackListAdapter);
         return successView;
     }
@@ -86,8 +98,13 @@ public class HistoryFragment extends BaseFragment implements IHistoryCallback, T
 
     @Override
     public void onHistoryLoaded(List<Track> tracks) {
-        mTrackListAdapter.setData(tracks);
-        mUiLoader.updateStatus(UILoader.UIStatus.SUCCESS);
+        if (tracks==null||tracks.size()==0){
+            mUiLoader.updateStatus(UILoader.UIStatus.EMPTY);
+        }else {
+            mTrackListAdapter.setData(tracks);
+            mUiLoader.updateStatus(UILoader.UIStatus.SUCCESS);
+        }
+
     }
 
     @Override
@@ -97,5 +114,31 @@ public class HistoryFragment extends BaseFragment implements IHistoryCallback, T
 
         Intent intent = new Intent(getActivity(), PlayerActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void onItemLongPress(Track track, int i) {
+        this.mCurrentClickHistoryItem = track;
+        //删除历史
+        ConfirmCheckBoxDialog confirmCheckBoxDialog = new ConfirmCheckBoxDialog(getActivity());
+        confirmCheckBoxDialog.setOnDialogActionClickListener(this);
+        confirmCheckBoxDialog.show();
+    }
+
+    @Override
+    public void onCancelClick() {
+        //不用做
+    }
+
+    @Override
+    public void onConfirmClick(boolean isCheck) {
+        //去删除历史
+        if (mHistoryPresenter!=null&&mCurrentClickHistoryItem != null) {
+            if (!isCheck) {
+                mHistoryPresenter.delHistory(mCurrentClickHistoryItem);
+            }else {
+                mHistoryPresenter.cleanHistory();
+            }
+        }
     }
 }

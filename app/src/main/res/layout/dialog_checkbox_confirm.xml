@@ -4,18 +4,31 @@
     android:layout_height="match_parent">
 
     <RelativeLayout
-        android:layout_width="230dp"
-        android:layout_height="140dp"
+        android:layout_width="300dp"
+        android:layout_height="180dp"
         android:layout_centerInParent="true"
         android:background="@drawable/shape_confirm_dialog_bg">
 
         <TextView
+            android:id="@+id/dialog_tips_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="30dp"
-            android:text="取消订阅该专辑吗？"
-            android:textSize="20sp" />
+            android:text="删除历史记录？"
+            android:textSize="22sp"
+            android:textColor="@color/play_list_text_color"/>
+
+        <CheckBox
+            android:id="@+id/dialog_check_box"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/dialog_tips_text"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:text="清除所有的历史记录"
+            android:textColor="@color/play_list_text_color"
+            android:textSize="18sp" />
 
         <LinearLayout
             android:id="@+id/dialog_button_container"
@@ -30,7 +43,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="取消订阅"
+                android:text="取消"
                 android:textSize="20sp" />
 
             <View
@@ -44,7 +57,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="我再想想"
+                android:text="确定"
                 android:textColor="@color/main_color"
                 android:textSize="20sp" />
         </LinearLayout>
